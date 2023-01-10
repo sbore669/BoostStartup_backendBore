@@ -96,8 +96,8 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
 
   //analyse
-  private String parseJwt(HttpServletRequest request) {
-    String headerAuth = request.getHeader("Authorization");
+ /* private String parseJwt(HttpServletRequest request) {
+    String headerAuth = request.getHeader("Authorization");*/
 
     /*
   ----hasText Vérifiez si la chaîne donnée contient du texte réel.
@@ -107,12 +107,15 @@ public class AuthTokenFilter extends OncePerRequestFilter {
   ---startsWith verifie si une chaine commence par un prefixe
    */
 
-    if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
+  //  if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
 
       //permet de retourner le jwt sans le mot clé Bearer
-      return headerAuth.substring(7, headerAuth.length());
-    }
+    //  return headerAuth.substring(7, headerAuth.length());
+   // }
 
-    return null;
+  private String parseJwt(HttpServletRequest request) {
+    String jwt = jwtUtils.getJwtFromCookies(request);
+    return jwt;
+
   }
 }

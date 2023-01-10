@@ -19,6 +19,8 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -64,17 +66,10 @@ public class AuthController {
   JwtUtils jwtUtils;
 
   //@Valid assure la validation de l'ensemble de l'objet
-  @PostMapping("/signin")
-  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+ // @PostMapping("/signin")
+  //public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
-    String url = "C:/Users/sbbore/Pictures/springimages";
-
-    /*
-    String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
-    System.out.println(nomfile);
-    ConfigImage.saveimgA(url, nomfile, file);
-    */
-
+   // String url = "C:/Users/sbbore/Pictures/springimages";
 
     /*
      AuthenticationManager est comme un coordinateur où vous pouvez enregistrer plusieurs fournisseurs et,
@@ -89,9 +84,9 @@ public class AuthController {
        puis renvoie une instance entièrement remplie Authenticationen cas d'authentification réussie.
      */
 
-    Authentication authentication = authenticationManager.authenticate(
+    //Authentication authentication = authenticationManager.authenticate(
             //on lui fournit un objet avec username et password fournit par l'admin
-        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+     //   new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
     /*
       SecurityContext et SecurityContextHolder sont deux classes fondamentales de Spring Security .
@@ -103,31 +98,65 @@ public class AuthController {
      */
 
     //on stocke les informations de connexion de l'utilisateur actuelle souhaiter se connecter dans SecurityContextHolder
-    SecurityContextHolder.getContext().setAuthentication(authentication);
+   // SecurityContextHolder.getContext().setAuthentication(authentication);
 
     //on envoie encore les infos au generateur du token
-    String jwt = jwtUtils.generateJwtToken(authentication);
+  //  String jwt = jwtUtils.generateJwtToken(authentication);
 
     //on recupere les infos de l'user
-    UtilisateursDetails utilisateursDetails = (UtilisateursDetails) authentication.getPrincipal();
+   // UtilisateursDetails utilisateursDetails = (UtilisateursDetails) authentication.getPrincipal();
 
     //on recupere les roles de l'users
-    List<String> roles = utilisateursDetails.getAuthorities().stream()
-        .map(item -> item.getAuthority())
-        .collect(Collectors.toList());
+   // List<String> roles = utilisateursDetails.getAuthorities().stream()
+       // .map(item -> item.getAuthority())
+       // .collect(Collectors.toList());
 
-    log.info("conexion controlleur");
+    //log.info("conexion controlleur");
 
     //on retourne une reponse, contenant l'id username, e-mail et le role du collaborateur
-    return ResponseEntity.ok(new JwtResponse(jwt,
+   /* return ResponseEntity.ok(new JwtResponse(jwt,
                          utilisateursDetails.getId(),
                          utilisateursDetails.getUsername(),
                          utilisateursDetails.getEmail(), roles,
                          utilisateursDetails.getAdresse(),
                          utilisateursDetails.getNomcomplet(),
                          utilisateursDetails.getPhoto()
-                         ));
+                         ));*/
+  //}
+
+
+
+  @PostMapping("/signinn")
+  public ResponseEntity<?> authenticateUserr(@Valid @RequestBody LoginRequest loginRequest) {
+
+    Authentication authentication = authenticationManager
+            .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+
+    UtilisateursDetails userDetails = (UtilisateursDetails) authentication.getPrincipal();
+
+    ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+
+    List<String> roles = userDetails.getAuthorities().stream()
+            .map(item -> item.getAuthority())
+            .collect(Collectors.toList());
+
+    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+            .body(new JwtResponse(userDetails.getId(),
+                    userDetails.getUsername(),
+                    userDetails.getEmail(),
+                    userDetails.getAdresse(),
+                    userDetails.getPhoto(),
+                    userDetails.getNomcomplet(),
+                    roles));
   }
+
+
+
+
+
+
 
   //@PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/signup")//@valid s'assure que les données soit validées
