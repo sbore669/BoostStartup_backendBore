@@ -8,6 +8,7 @@ import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.UtilisateursRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion.StartupsImplemation;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.ConfigImages;
+import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.SaveImage;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.request.LoginRequest;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.request.SignupRequest;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.response.JwtResponse;
@@ -164,14 +165,14 @@ public class AuthController {
                                         @Valid  @RequestParam(value = "donneesuser") String donneesuser) throws IOException {
 
     //chemin de stockage des images
-    String url = "C:/Users/sbbore/Pictures/springimages";
+    //String url = "C:/Users/sbbore/Pictures/springimages";
 
     //recupere le nom de l'image
     String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
     System.out.println(nomfile);
 
     //envoie le nom, url et le fichier à la classe ConfigImages qui se chargera de sauvegarder l'image
-    ConfigImages.saveimg(url, nomfile, file);
+    //ConfigImages.saveimg(url, nomfile, file);
 
     //converssion du string reçu en classe SignupRequest
     SignupRequest signUpRequest = new JsonMapper().readValue(donneesuser, SignupRequest.class);
@@ -228,6 +229,8 @@ public class AuthController {
 
     //on ajoute le role au collaborateur
     utilisateurs.setRoles(roles);
+    //Enregistrement de l'image dans htdoc
+    utilisateurs.setPhoto(SaveImage.save(file,nomfile));
     utilisateursRepository.save(utilisateurs);
 
     return ResponseEntity.ok(new MessageResponse("Collaborateur enregistré avec succès!"));
@@ -242,7 +245,7 @@ public class AuthController {
           @Valid @RequestParam(value = "donneesstartups")String donneesstartups) throws IOException{
 
     //chemin de stockage des images
-    String url = "C:/Users/sbbore/Pictures/springimages";
+   // String url = "C:/Users/sbbore/Pictures/springimages";
 
     //@Valid  @RequestParam(value = "donneesuser") String donneesuser,
 
@@ -251,67 +254,18 @@ public class AuthController {
     System.out.println(nomfile);
 
     //envoie le nom, url et le fichier à la classe ConfigImages qui se chargera de sauvegarder l'image
-    ConfigImages.saveimg(url, nomfile, file);
+    //ConfigImages.saveimg(url, nomfile, file);
 
     //converssion du string reçu en classe SignupRequest
     ObjectMapper mapper = new ObjectMapper();
     Startups startups = mapper.readValue(donneesstartups, Startups.class);
 
-    //SignupRequest signUpRequest = new JsonMapper().readValue(donneesuser, SignupRequest.class);
 
-    //signUpRequest.setPhoto(nomfile);
-
-    /*if (utilisateursRepository.existsByUsername(signUpRequest.getUsername())) {
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Erreur: Ce nom d'utilisateur existe déjà!"));
-    }*/
-
-    //if (utilisateursRepository.existsByEmail(signUpRequest.getEmail())) {
-
-      //confectionne l'objet de retour à partir de ResponseEntity(une classe de spring boot) et MessageResponse
-     /* return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Erreur: Cet email est déjà utilisé!"));
-    }*/
-
-    // Create new user's account
-    /*Utilisateurs utilisateurs = new Utilisateurs(signUpRequest.getUsername(),
-            signUpRequest.getEmail(),
-            encoder.encode(signUpRequest.getPassword()), signUpRequest.getAdresse(),
-            signUpRequest.getNomcomplet(), signUpRequest.getPhoto()
-    );*/
 
     //on recupere le role de l'user dans un tableau ordonné de type string
    /* Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();*/
 
-    /*if (strRoles == null) {
-      System.out.println("####################################" + signUpRequest.getRole() + "###########################################");
-
-      //on recupere le role de l'utilisateur
-      Role userRole = roleRepository.findByName(ERole.ROLE_STARTUPS);
-      roles.add(userRole);//on ajoute le role de l'user à roles
-    } else {
-      strRoles.forEach(role -> {//on parcours le role
-        switch (role) {
-          case "admin"://si le role est à égale à admin
-            Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN);
-            roles.add(adminRole);
-
-            break;
-          default://dans le cas écheant
-
-            //on recupere le role de l'utilisateur
-            Role userRole = roleRepository.findByName(ERole.ROLE_USER);
-            roles.add(userRole);
-        }
-      });
-    }*/
-
-    //on ajoute le role au collaborateur
-    /*utilisateurs.setRoles(roles);
-    utilisateursRepository.save(utilisateurs);*/
     startups.setPhoto(nomfile);
     if (startups.getStatus() == null){
       startups.setStatus(Status.ENCOURS);
@@ -324,60 +278,13 @@ public class AuthController {
     Role role = roleRepository.findByName(ERole.ROLE_STARTUPS);
     roles.add(role);
     startups.setRoles(roles);
+    //Enregistrement de l'image dans htdoc
+    startups.setPhoto(SaveImage.save(file,nomfile));
     startupsRepository.save(startups);
 
     return ResponseEntity.ok(new MessageResponse("Startup cree avec succès!"));
   }
 
- /* @PutMapping("/modifierStatups/{id}")
-  public ResponseEntity<?> updateStartupso(@PathVariable Long id,
-                                          @Valid @RequestParam(value = "file", required = true) MultipartFile file,
-                                          @Valid @RequestParam(value = "donneesstartups") String donneesstartups) throws IOException {
-
-    // récupère la Startup à mettre à jour à partir de la base de données
-    Startups startups = startupsRepository.findById(id).orElse(null);
-    if (startups == null) {
-      return ResponseEntity
-              .badRequest()
-              .body(new MessageResponse("Erreur: Startup introuvable!"));
-    }
-
-    // chemin de stockage des images
-    String url = "C:/Users/sbbore/Pictures/springimages";
-
-    // récupère le nom de l'image
-    String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
-    System.out.println(nomfile);
-
-    // envoie le nom, url et le fichier à la classe ConfigImages qui se chargera de sauvegarder l'image
-    ConfigImages.saveimg(url, nomfile, file);
-
-    // conversion du string reçu en classe Startups
-    ObjectMapper mapper = new ObjectMapper();
-    Startups updatedStartups = mapper.readValue(donneesstartups, Startups.class);
-
-    // définit les champs de la Startup à mettre à jour en utilisant les valeurs de l'objet updatedStartups
-    startups.setNomStartups(updatedStartups.getNomStartups());
-    startups.setContact(updatedStartups.getContact());
-    startups.setEmailStartups(updatedStartups.getEmailStartups());
-    startups.setSecteurActivite(updatedStartups.getSecteurActivite());
-    startups.setStadeDeveloppement(updatedStartups.getStadeDeveloppement());
-    startups.setNumeroIdentification(updatedStartups.getNumeroIdentification());
-    startups.setDescriptionStartups(updatedStartups.getDescriptionStartups());
-    startups.setDateCreation(updatedStartups.getDateCreation());
-    startups.setProprietaire(updatedStartups.getProprietaire());
-    startups.setFormeJuridique(updatedStartups.getFormeJuridique());
-    startups.setChiffreAffaire(updatedStartups.getChiffreAffaire());
-    startups.setLocalisation(updatedStartups.getLocalisation());
-    startups.setPays(updatedStartups.getPays());
-    startups.setStatus(updatedStartups.getStatus());
-    startups.setPhoto(nomfile);
-
-    // enregistre la Startup mise à jour dans la base de données
-    startupsRepository.save(startups);
-
-    return ResponseEntity.ok(new MessageResponse("Startup mise à jour avec succès!"));
-  }*/
  @PostMapping("/modifierStart/{id}")
  public ResponseEntity<?> updateStartupsById(
          @PathVariable Long id,
