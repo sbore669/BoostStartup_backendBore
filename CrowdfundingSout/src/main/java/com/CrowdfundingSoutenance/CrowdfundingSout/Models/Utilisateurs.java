@@ -10,6 +10,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+//@DiscriminatorValue( "null" )
 @Table(name = "users",
     /*
     * garantissent l'unicité d'une colonne ou d'un ensemble de colonnes.
@@ -22,7 +24,7 @@ import java.util.Set;
 public class Utilisateurs {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Long idUsers;
 
   @NotBlank
   @Size(max = 20)
@@ -70,11 +72,11 @@ public class Utilisateurs {
   }
 
   public Long getId() {
-    return id;
+    return idUsers;
   }
 
   public void setId(Long id) {
-    this.id = id;
+    this.idUsers = id;
   }
 
   public String getUsername() {

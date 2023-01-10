@@ -1,4 +1,4 @@
-package com.CrowdfundingSoutenance.CrowdfundingSout.Models;
+package com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum;
 
 public enum ERole {
   ROLE_USER,

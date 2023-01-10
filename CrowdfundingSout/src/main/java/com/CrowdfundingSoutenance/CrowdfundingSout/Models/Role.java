@@ -1,5 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Models;
 
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.ERole;
 import lombok.AllArgsConstructor;
 
 import javax.persistence.*;

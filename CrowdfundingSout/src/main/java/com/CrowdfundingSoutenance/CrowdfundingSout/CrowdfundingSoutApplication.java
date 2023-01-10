@@ -1,6 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout;
 
-import com.CrowdfundingSoutenance.CrowdfundingSout.Models.ERole;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.ERole;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Role;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Utilisateurs;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.RoleRepository;

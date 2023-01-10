@@ -3,6 +3,8 @@ package com.CrowdfundingSoutenance.CrowdfundingSout.security.services;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Utilisateurs;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.RoleRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.UtilisateursRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -19,6 +21,8 @@ l'utilisateur dans la documentation Spring.
  */
 
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
 public class UtilisateursDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
