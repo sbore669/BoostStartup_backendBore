@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,6 +31,7 @@ public class ProjetControllers {
     private StartupsInterfaces startupsInterfaces;
 
     @PostMapping("/add/{id_users}")
+    @PreAuthorize("hasRole('ROLE_STARTUPS')")
     public ResponseEntity<?> addProjet(
             @PathVariable Long id_users,
             @Valid @RequestParam(value = "file", required = true) MultipartFile file,

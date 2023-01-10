@@ -16,9 +16,9 @@ public class JwtResponse {
   private String nomcomplet;
   private List<String> roles;
 
-  public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles, String adresse,
-                     String photo, String nomcomplet) {
-    this.token = accessToken;
+  public JwtResponse( Long id, String username, String adresse, String email,
+                     String photo, String nomcomplet , List<String> roles) {
+    //this.token = accessToken;
     this.id = id;
     this.username = username;
     this.email = email;
@@ -27,6 +27,8 @@ public class JwtResponse {
     this.photo = photo;
     this.nomcomplet = nomcomplet;
   }
+
+
 
   public String getAccessToken() {
     return token;
