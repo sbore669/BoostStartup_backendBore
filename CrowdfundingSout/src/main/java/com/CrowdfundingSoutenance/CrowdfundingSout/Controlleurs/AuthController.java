@@ -266,7 +266,7 @@ public class AuthController {
    /* Set<String> strRoles = signUpRequest.getRole();
     Set<Role> roles = new HashSet<>();*/
 
-    startups.setPhoto(nomfile);
+   // startups.setPhoto(nomfile);
     if (startups.getStatus() == null){
       startups.setStatus(Status.ENCOURS);
     } else if (Arrays.asList(Status.values()).contains(startups.getStatus())) {
