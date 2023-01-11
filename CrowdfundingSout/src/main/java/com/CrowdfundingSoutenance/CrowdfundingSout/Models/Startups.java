@@ -18,7 +18,6 @@ import java.util.Date;
 public class Startups extends Utilisateurs {
 
 
-    private Long idstartups;
 
     @NotBlank
     @Size(max = 100)
@@ -78,12 +77,11 @@ public class Startups extends Utilisateurs {
 
     // constructeur
     public Startups(String username, String email, String password, String adresse, String nomComplet, String photo,
-                    Long idstartups, String nomStartups, String contact, String emailStartups, String secteurActivite,
+                    String nomStartups, String contact, String emailStartups, String secteurActivite,
                     String stadeDeveloppement, String numeroIdentification, String descriptionStartups, Date dateCreation,
                     String proprietaire, String formeJuridique, String chiffreAffaire, String localisation, String pays,
                     Status status) {
         super(username, email,password, adresse, nomComplet, photo);
-        this.idstartups = idstartups;
         this.nomStartups = nomStartups;
         this.contact = contact;
         this.emailStartups = emailStartups;

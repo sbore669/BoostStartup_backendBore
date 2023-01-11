@@ -6,6 +6,7 @@ import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.ProjetsInterfaces;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.StartupsInterfaces;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.ConfigImages;
+import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.SaveImage;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.response.MessageResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +61,11 @@ public class ProjetControllers {
             throw new IllegalArgumentException("L'état du projets de votren startups est incorrect");
         }
 
-        String url = "C:/Users/sbbore/Pictures/springimages";
+      //  String url = "C:/Users/sbbore/Pictures/springimages";
         String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
-        ConfigImages.saveimg(url, nomfile, file);
+      //  ConfigImages.saveimg(url, nomfile, file);
         projet.setStartups(startup);
-        projet.setImage(nomfile);
+        projet.setImage(SaveImage.save(file,nomfile));
         projet.setDateLancement(new Date());
         projet = projetsInterfaces.addProjet(projet);
 

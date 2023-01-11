@@ -111,4 +111,9 @@ public class Utilisateurs {
     this.roles = roles;
   }
 
+
+  @ManyToMany(mappedBy = "utilisateurs")
+  private Set<Typeprojet> typeprojet;
+
+
 }
