@@ -51,9 +51,6 @@ public class Startups extends Utilisateurs {
     @NotNull
     private Date dateCreation;
 
-    @NotBlank
-    @Size(max = 100)
-    private String proprietaire;
 
     @NotBlank
     @Size(max = 100)
@@ -79,7 +76,7 @@ public class Startups extends Utilisateurs {
     public Startups(String username, String email, String password, String adresse, String nomComplet, String photo,
                     String nomStartups, String contact, String emailStartups, String secteurActivite,
                     String stadeDeveloppement, String numeroIdentification, String descriptionStartups, Date dateCreation,
-                    String proprietaire, String formeJuridique, String chiffreAffaire, String localisation, String pays,
+                    String formeJuridique, String chiffreAffaire, String localisation, String pays,
                     Status status) {
         super(username, email,password, adresse, nomComplet, photo);
         this.nomStartups = nomStartups;
@@ -90,7 +87,6 @@ public class Startups extends Utilisateurs {
         this.numeroIdentification = numeroIdentification;
         this.descriptionStartups = descriptionStartups;
         this.dateCreation = dateCreation;
-        this.proprietaire = proprietaire;
         this.formeJuridique = formeJuridique;
         this.chiffreAffaire = chiffreAffaire;
         this.localisation = localisation;
