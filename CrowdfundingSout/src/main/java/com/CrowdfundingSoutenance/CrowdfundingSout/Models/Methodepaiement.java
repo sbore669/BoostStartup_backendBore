@@ -15,6 +15,5 @@ public class Methodepaiement {
     private Long idpaiement;
     private String nompaiement;
     private String adressepaiement;
-    private String Imagespaiement;
 
 }

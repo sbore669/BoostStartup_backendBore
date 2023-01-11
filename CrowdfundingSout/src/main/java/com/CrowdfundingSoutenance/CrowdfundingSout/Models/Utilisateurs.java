@@ -115,5 +115,4 @@ public class Utilisateurs {
   @ManyToMany(mappedBy = "utilisateurs")
   private Set<Typeprojet> typeprojet;
 
-
 }

@@ -16,7 +16,12 @@ public class MethodServImplemt implements MethpaieInterfaceServ {
     MethopaiemRepository methopaiemRepository;
     @Override
     public Methodepaiement save(Methodepaiement methodepaiement) {
-        return methopaiemRepository.save(methodepaiement);
+        Methodepaiement methodepaiementExistant = methopaiemRepository.findByNompaiement(methodepaiement.getNompaiement());
+        if (methodepaiementExistant == null) {
+            return methopaiemRepository.save(methodepaiement);
+        } else {
+            throw new IllegalArgumentException("Une méthode de paiement avec ce nom existe déjà.");
+        }
     }
 
     @Override
@@ -25,7 +30,7 @@ public class MethodServImplemt implements MethpaieInterfaceServ {
         if (metho1 != null) {
             metho1.setNompaiement(methodepaiement.getNompaiement());
             metho1.setAdressepaiement(methodepaiement.getAdressepaiement());
-            metho1.setImagespaiement(methodepaiement.getImagespaiement());
+            methopaiemRepository.save(metho1);
             return "Methode de paiement modifier avec succès";
         }
         return "Methode de paiement introuvable";

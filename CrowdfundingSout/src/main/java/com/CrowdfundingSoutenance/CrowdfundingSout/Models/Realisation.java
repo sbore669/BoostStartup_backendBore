@@ -15,9 +15,9 @@ public class Realisation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  IdRealisation;
     private String nomRealisation;
-    private String MontantRealisation;
-    private String ImageRealisation;
-    private java.util.Date Date;
+    private String montantRealisation;
+    private String imageRealisation;
+    private Date daterealisation;
 
 
 

@@ -92,10 +92,10 @@ public class ProjetControllers {
         }
 
         if (file != null) {
-            String url = "C:/Users/sbbore/Pictures/springimages";
+          //  String url = "C:/Users/sbbore/Pictures/springimages";
             String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
-            ConfigImages.saveimg(url, nomfile, file);
-            projetToUpdate.setImage(nomfile);
+          //  ConfigImages.saveimg(url, nomfile, file);
+            projet.setImage(SaveImage.save(file,nomfile));
         }
 
         projetToUpdate = projetsInterfaces.updateProjet(idprojet, projetToUpdate);
