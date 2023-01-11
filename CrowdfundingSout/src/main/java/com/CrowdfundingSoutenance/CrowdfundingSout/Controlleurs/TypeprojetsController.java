@@ -19,6 +19,7 @@ public class TypeprojetsController {
 
     @PostMapping("/add")
     public ResponseEntity<?> save(@RequestBody Typeprojet typeprojet){
+
         return  typeprojetInterfServ.save(typeprojet);
     }
 }
