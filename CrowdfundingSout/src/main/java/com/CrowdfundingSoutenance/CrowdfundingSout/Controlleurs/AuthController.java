@@ -164,15 +164,10 @@ public class AuthController {
   public ResponseEntity<?> registerUser(@Valid @RequestParam(value = "file", required = true) MultipartFile file,
                                         @Valid  @RequestParam(value = "donneesuser") String donneesuser) throws IOException {
 
-    //chemin de stockage des images
-    //String url = "C:/Users/sbbore/Pictures/springimages";
 
     //recupere le nom de l'image
     String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
     System.out.println(nomfile);
-
-    //envoie le nom, url et le fichier à la classe ConfigImages qui se chargera de sauvegarder l'image
-    //ConfigImages.saveimg(url, nomfile, file);
 
     //converssion du string reçu en classe SignupRequest
     SignupRequest signUpRequest = new JsonMapper().readValue(donneesuser, SignupRequest.class);
@@ -342,6 +337,45 @@ public class AuthController {
            .ok(new MessageResponse("Startup modifier avec succès!"));
  }
 
+
+ //tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
+
+  @PostMapping("/InscrInvest")//@valid s'assure que les données soit validées
+  public ResponseEntity<?> registerInvestisseur(
+          @Valid @RequestParam(value = "file", required = true) MultipartFile file,
+
+          @Valid @RequestParam(value = "donneesInvest")String donneesInvest) throws IOException{
+
+    String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+    System.out.println(nomfile);
+    ObjectMapper mapper = new ObjectMapper();
+    Investisseur investisseur = mapper.readValue(donneesInvest, Investisseur.class);
+
+    if (utilisateursRepository.existsByUsername(investisseur.getUsername())) {
+      return ResponseEntity
+              .badRequest()
+              .body(new MessageResponse("Erreur: Ce nom d'utilisateur existe déjà!"));
+    }
+
+    if (utilisateursRepository.existsByEmail(investisseur.getEmail())) {
+
+      //confectionne l'objet de retour à partir de ResponseEntity(une classe de spring boot) et MessageResponse
+      return ResponseEntity
+              .badRequest()
+              .body(new MessageResponse("Erreur: Cet email est déjà utilisé!"));
+    }
+
+    investisseur.setPassword(encoder.encode(investisseur.getPassword()));
+    Set<Role> roles = new HashSet<>();
+    Role role = roleRepository.findByName(ERole.ROLE_USER);
+    roles.add(role);
+    investisseur.setRoles(roles);
+    //Enregistrement de l'image dans htdoc
+    investisseur.setPhoto(SaveImage.save(file,nomfile));
+    utilisateursRepository.save(investisseur);
+
+    return ResponseEntity.ok(new MessageResponse("Compte investisseur creer avec succès!"));
+  }
 
 
 }

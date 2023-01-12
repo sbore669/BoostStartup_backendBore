@@ -16,10 +16,10 @@ public class Typeprojet {
 
 
     @ManyToMany
-    @JoinTable(name = "typeprojet_utilisateur",
+    @JoinTable(name = "typeprojet_investisseur",
             joinColumns = @JoinColumn(name = "typeprojet_id"),
-            inverseJoinColumns = @JoinColumn(name = "utilisateur_id"))
-    private Set<Utilisateurs> utilisateurs;
+            inverseJoinColumns = @JoinColumn(name = "investisseur_id"))
+    private Set<Investisseur> investisseurs;
 
 
 }
