@@ -46,7 +46,7 @@ public class CrowdfundingSoutApplication implements CommandLineRunner {
 			Set<Role> roles = new HashSet<>();
 			Role role = roleRepository.findByName(ERole.ROLE_ADMIN);
 			roles.add(role);
-			Utilisateurs utilisateurs = new Utilisateurs("Leweeskys","souleymanebore669@gmail.com", encoder.encode( "12345678"),"Lafiabougou","Souleymane Bore","photo.png");
+			Utilisateurs utilisateurs = new Utilisateurs("Leweeskys","souleymanebore6699@gmail.com", encoder.encode( "12345678"),"Lafiabougou","Souleymane Bore","photo.png");
 			utilisateurs.setRoles(roles);
 			utilisateursRepository.save(utilisateurs);
 

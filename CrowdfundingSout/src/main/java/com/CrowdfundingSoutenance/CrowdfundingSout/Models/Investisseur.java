@@ -15,5 +15,7 @@ public class Investisseur extends Utilisateurs{
 
     @ManyToMany(mappedBy = "investisseurs")
     private Set<Typeprojet> typeprojet;
+
+
 }
 

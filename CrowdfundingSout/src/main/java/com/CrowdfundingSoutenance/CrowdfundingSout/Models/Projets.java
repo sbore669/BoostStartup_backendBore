@@ -23,6 +23,13 @@ public class Projets {
     private String dureeProjet;
     private Long budgetPrevisonnel;
     private String soldeProjet;
+    private Long total_action;
+    private Long action_restante;
+    private Long prix_action;
+    private Long pourcentage;
+    private Long pret_minimun;
+    private Long pret_maximun;
+    private Long minimun_donation;
     private String image;
 
     @Enumerated(EnumType.STRING)

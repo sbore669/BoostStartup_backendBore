@@ -7,6 +7,7 @@ import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.RoleRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.UtilisateursRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion.StartupsImplemation;
+import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.StartupsInterfaces;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.ConfigImages;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.SaveImage;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.request.LoginRequest;
@@ -58,6 +59,9 @@ public class AuthController {
 
   @Autowired
   private StartupsImplemation startupsImplemation;
+
+  @Autowired
+  private StartupsInterfaces startupsInterfaces;
 
   //encoder du password
   @Autowired
@@ -246,7 +250,7 @@ public class AuthController {
 
     //recupere le nom de l'image
     String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
-    System.out.println(nomfile);
+   // System.out.println(nomfile);
 
     //envoie le nom, url et le fichier à la classe ConfigImages qui se chargera de sauvegarder l'image
     //ConfigImages.saveimg(url, nomfile, file);
@@ -275,12 +279,12 @@ public class AuthController {
     startups.setRoles(roles);
     //Enregistrement de l'image dans htdoc
     startups.setPhoto(SaveImage.save(file,nomfile));
-    startupsRepository.save(startups);
+    startupsInterfaces.createStartups(startups);
 
     return ResponseEntity.ok(new MessageResponse("Startup cree avec succès!"));
   }
 
- @PostMapping("/modifierStart/{id}")
+ @PutMapping("/modifierStart/{id}")
  public ResponseEntity<?> updateStartupsById(
          @PathVariable Long id,
          @Valid @RequestParam(value = "file", required = true) MultipartFile file,
@@ -293,23 +297,14 @@ public class AuthController {
              .badRequest()
              .body(new MessageResponse("Erreur: Startup introuvable!"));
    }
-
-   // chemin de stockage des images
-   String url = "C:/Users/sbbore/Pictures/springimages";
-
    // récupère le nom de l'image
    String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
    System.out.println(nomfile);
 
-   // envoie le nom, url et le fichier à la classe ConfigImages qui se chargera de sauvegarder l'image
-   ConfigImages.saveimg(url, nomfile, file);
 
    // conversion du string reçu en classe Startups
    ObjectMapper mapper = new ObjectMapper();
    Startups startupToUpdate = mapper.readValue(donneesstartups, Startups.class);
-
-   // définit le nom de l'image pour la Startup
-   startupToUpdate.setPhoto(nomfile);
 
    // si le status n'est pas défini, il est défini comme "EN_COURS"
    if (startupToUpdate.getStatus() == null) {
@@ -323,13 +318,13 @@ public class AuthController {
    }
    startupToUpdate.setEmail(startupToUpdate.getEmail());
    startupToUpdate.setUsername(startupToUpdate.getUsername());
-   startupToUpdate.setPhoto(nomfile);
    startupToUpdate.setPassword(encoder.encode(startups.getPassword()));
    startupToUpdate.setAdresse(startupToUpdate.getAdresse());
    startupToUpdate.setNomcomplet(startupToUpdate.getNomcomplet());
+   startupToUpdate.setPhoto(SaveImage.save(file,nomfile));
 
    // enregistre la Startup dans la base de données
-   startupsImplemation.updateStartupsById(id, startupToUpdate);
+   startupsInterfaces.updateStartupsById(id, startupToUpdate);
    startupsRepository.save(startups);
 
    // confectionne l'objet de retour à partir de ResponseEntity (une classe de Spring Boot) et MessageResponse

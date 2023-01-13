@@ -28,15 +28,22 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
         }
 
         if (projets.getBudgetPrevisonnel() <= 0) {
-            throw new IllegalArgumentException("Le budget prévisionnel doit être supérieur à 0");
+            throw new IllegalArgumentException("Le budget prévisionnel doit être supérieur à 0 ou le pourcentage du pret superieur a 100%");
+        }
+        if (projets.getPret_minimun() >= projets.getPret_maximun()) {
+            throw new IllegalArgumentException("La valeur minimale du prêt est supérieure à la valeur maximale du prêt." + "Veuillez saisir des valeurs correctes.");
+        }
+        if (projets.getMinimun_donation()<= 0){
+            throw new IllegalArgumentException("Le minimun de donation doit être superieur a 0");
+        }
+        if (projets.getPourcentage() >=100){
+            throw new IllegalArgumentException("Le pourcentage du prêt saisi doit être compris entre 0 et 100%.");
         }
 
         List<Projets> existingProjects = projetsRepository.findByNomprojets(projets.getNomprojets());
         if (!existingProjects.isEmpty()) {
             throw new IllegalArgumentException("Un projet existe déjà avec ce nom");
         }
-
-
 
         // Vérifiez les autres champs requis
         return projetsRepository.save(projets);

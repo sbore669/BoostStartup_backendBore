@@ -75,6 +75,8 @@ public class Startups extends Utilisateurs {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+
+
     // constructeur
     public Startups(String username, String email, String password, String adresse, String nomComplet, String photo,
                     String nomStartups, String contact, String emailStartups, String secteurActivite,
@@ -97,5 +99,6 @@ public class Startups extends Utilisateurs {
         this.pays = pays;
         this.status = status;
     }
+
 
 }

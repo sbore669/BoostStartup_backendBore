@@ -3,7 +3,10 @@ package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.StartupsInterfaces;
+import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.EmailConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,36 +16,54 @@ public class StartupsImplemation implements StartupsInterfaces {
 
     @Autowired
     private StartupsRepository startupsRepository;
+    @Autowired
+    JavaMailSender mailSender;
+    @Autowired
+    EmailConstructor emailConstructor;
+    @Autowired
+    PasswordEncoder encoder;
+
 
     @Override
     public Startups createStartups(Startups startups) {
+        mailSender.send(emailConstructor.constructNewUserEmail(startups));
         return startupsRepository.save(startups);
     }
 
     @Override
-    public String updateStartupsById(Long id, Startups startups) {
-        Startups startupToUpdate = startupsRepository.findById(id).orElse(null);
-        if (startupToUpdate != null) {
-            startupToUpdate.setNomStartups(startups.getNomStartups());
-            startupToUpdate.setContact(startups.getContact());
-            startupToUpdate.setEmailStartups(startups.getEmailStartups());
-            startupToUpdate.setSecteurActivite(startups.getSecteurActivite());
-            startupToUpdate.setStadeDeveloppement(startups.getStadeDeveloppement());
-            startupToUpdate.setNumeroIdentification(startups.getNumeroIdentification());
-            startupToUpdate.setDescriptionStartups(startups.getDescriptionStartups());
-            startupToUpdate.setDateCreation(startups.getDateCreation());
-            startupToUpdate.setProprietaire(startups.getProprietaire());
-            startupToUpdate.setFormeJuridique(startups.getFormeJuridique());
-            startupToUpdate.setChiffreAffaire(startups.getChiffreAffaire());
-            startupToUpdate.setLocalisation(startups.getLocalisation());
-            startupToUpdate.setPays(startups.getPays());
-            startupToUpdate.setStatus(startups.getStatus());
-            startupsRepository.save(startupToUpdate);
-            return "Startups modifier avec succès";
+    public String updateStartupsById(Long id, Startups startup) {
+        Startups existingStartup = startupsRepository.findById(id).orElse(null);
+        if (existingStartup != null) {
+            // update the fields of the existing startup with the new values
+            existingStartup.setNomStartups(startup.getNomStartups());
+            existingStartup.setContact(startup.getContact());
+            existingStartup.setEmailStartups(startup.getEmailStartups());
+            existingStartup.setSecteurActivite(startup.getSecteurActivite());
+            existingStartup.setStadeDeveloppement(startup.getStadeDeveloppement());
+            existingStartup.setNumeroIdentification(startup.getNumeroIdentification());
+            existingStartup.setDescriptionStartups(startup.getDescriptionStartups());
+            existingStartup.setDateCreation(startup.getDateCreation());
+            existingStartup.setProprietaire(startup.getProprietaire());
+            existingStartup.setFormeJuridique(startup.getFormeJuridique());
+            existingStartup.setChiffreAffaire(startup.getChiffreAffaire());
+            existingStartup.setLocalisation(startup.getLocalisation());
+            existingStartup.setPays(startup.getPays());
+            existingStartup.setStatus(startup.getStatus());
+
+            //update the related Utilisateurs entity
+            existingStartup.setUsername(startup.getUsername());
+            existingStartup.setEmail(startup.getEmail());
+            existingStartup.setPassword(startup.getPassword());
+            existingStartup.setNomcomplet(startup.getNomcomplet());
+            existingStartup.setPhoto(startup.getPhoto());
+            existingStartup.setAdresse(startup.getAdresse());
+            startupsRepository.save(existingStartup);
+            return "startups modifier avec succes";
         } else {
-            return "Votre Startups est introuvable";
+            return "echec lors de la modification";
         }
     }
+
 
     @Override
     public void deleteStartups(Long id) {

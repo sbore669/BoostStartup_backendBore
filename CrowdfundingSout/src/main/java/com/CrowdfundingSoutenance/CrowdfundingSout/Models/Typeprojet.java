@@ -14,7 +14,6 @@ public class Typeprojet {
     private Long Idtypeprojets;
     private String nomtype;
 
-
     @ManyToMany
     @JoinTable(name = "typeprojet_investisseur",
             joinColumns = @JoinColumn(name = "typeprojet_id"),
