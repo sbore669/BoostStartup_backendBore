@@ -1,6 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Models;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -8,14 +8,17 @@ import javax.persistence.ManyToOne;
 
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Action extends Investissements {
 
-    private Long nombre_action;
-    private Long nombre_acquis;
+    private Long nombreaction;
+    private Long prix_action;
     private Long total_action;
     private Long action_restante;
-    private Long prix_action;
+
 
     @ManyToOne
     @JoinColumn(name = "investisseur_id_users")

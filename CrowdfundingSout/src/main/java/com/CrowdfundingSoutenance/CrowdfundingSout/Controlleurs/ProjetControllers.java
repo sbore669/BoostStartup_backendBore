@@ -4,6 +4,7 @@ import com.CrowdfundingSoutenance.CrowdfundingSout.Models.*;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.StatProjets;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.TypeProjetsRepository;
+import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.NotificationServInter;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.ProjetsInterfaces;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.StartupsInterfaces;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.TypeprojetInterfServ;
@@ -21,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -34,6 +37,8 @@ public class ProjetControllers {
     private StartupsInterfaces startupsInterfaces;
     @Autowired
     private TypeprojetInterfServ typeprojetInterfServ;
+    @Autowired
+    private NotificationServInter notificationServInter;
 
     //uiiiiiiiiiiiiiiiii
     @PostMapping("/add/{id_users}/{Idtypeprojets}")
@@ -87,10 +92,12 @@ public class ProjetControllers {
     projet.setStartups(startup);
     projet.setImage(SaveImage.save(file, nomfile));
     projet.setDateLancement(new Date());
-    projet = projetsInterfaces.addProjet(projet);
 
+    notificationServInter.generateNotificationByType(projetsInterfaces.addProjet(projet),typeprojet);
     return new ResponseEntity<>(new MessageResponse("Projet créé avec succès"), HttpStatus.CREATED);
+
 }
+
     @PutMapping("/update/{idprojet}")
     public ResponseEntity<?> updateProjet(
             @PathVariable Long idprojet,

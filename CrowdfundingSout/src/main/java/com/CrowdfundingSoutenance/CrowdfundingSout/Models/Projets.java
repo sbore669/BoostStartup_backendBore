@@ -1,17 +1,17 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Models;
 
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.StatProjets;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
+
 @Entity
-@Data
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Projets {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +22,12 @@ public class Projets {
     private String objectif;
     private String dureeProjet;
     private Long budgetPrevisonnel;
-    private Long soldeprojet;
-    private Long total_action;
+    private Long Objectifpret;
+
+    private Long nbretotal_action;
     private Long action_restante;
     private Long prix_action;
+    private Long soldeprojet;
     private Long pourcentage;
     private Long pret_minimun;
     private Long pret_maximun;
@@ -39,6 +41,11 @@ public class Projets {
     public void updateSoldeProjet(){
         this.soldeprojet = this.prettotalobtenu + this.donationtotalobtenu;
     }
+  /*  @PrePersist
+    @PreUpdate
+    public void updateActionRestante(){ this.action_restante = this.nbretotal_action ;
+
+    } */
 
     @Enumerated(EnumType.STRING)
     private StatProjets statProjets;

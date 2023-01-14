@@ -39,6 +39,23 @@ public class EmailConstructor {
 		};
 		return messagePreparator;
 	}
+	public MimeMessagePreparator constructValidationStartups(Utilisateurs utilisateurs) {
+		Context context = new Context();
+		context.setVariable("utilisateurs", utilisateurs);
+		String text = templateEngine.process("ValidationStartups", context);
+		MimeMessagePreparator messagePreparator = new MimeMessagePreparator() {
+			@Override
+			public void prepare(MimeMessage mimeMessage) throws Exception {
+				MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
+				email.setPriority(1);
+				email.setTo(utilisateurs.getEmail());
+				email.setSubject("Bienvenu sur MaliStartups-Invest");
+				email.setText(text, true);
+				email.setFrom(new InternetAddress(env.getProperty("support.email")));
+			}
+		};
+		return messagePreparator;
+	}
 
 	public MimeMessagePreparator constructResetPasswordEmail(Utilisateurs utilisateurs, String password) {
 		Context context = new Context();

@@ -3,6 +3,7 @@ package com.CrowdfundingSoutenance.CrowdfundingSout.Models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -18,7 +19,7 @@ public class Typeprojet {
     @JoinTable(name = "typeprojet_investisseur",
             joinColumns = @JoinColumn(name = "typeprojet_id"),
             inverseJoinColumns = @JoinColumn(name = "investisseur_id"))
-    private Set<Investisseur> investisseurs;
+    private Set<Investisseur> investisseurs = new HashSet<>();
 
 
 }
