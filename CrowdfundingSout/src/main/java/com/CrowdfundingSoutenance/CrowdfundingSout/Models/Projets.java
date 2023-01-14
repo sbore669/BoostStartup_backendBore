@@ -22,15 +22,23 @@ public class Projets {
     private String objectif;
     private String dureeProjet;
     private Long budgetPrevisonnel;
-    private String soldeProjet;
+    private Long soldeprojet;
     private Long total_action;
     private Long action_restante;
     private Long prix_action;
     private Long pourcentage;
     private Long pret_minimun;
     private Long pret_maximun;
+    private Long prettotalobtenu;
+    private Long donationtotalobtenu;
     private Long minimun_donation;
     private String image;
+
+    @PrePersist
+    @PreUpdate
+    public void updateSoldeProjet(){
+        this.soldeprojet = this.prettotalobtenu + this.donationtotalobtenu;
+    }
 
     @Enumerated(EnumType.STRING)
     private StatProjets statProjets;

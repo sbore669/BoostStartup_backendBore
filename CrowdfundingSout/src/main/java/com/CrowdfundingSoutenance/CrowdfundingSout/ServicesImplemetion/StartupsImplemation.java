@@ -26,7 +26,7 @@ public class StartupsImplemation implements StartupsInterfaces {
 
     @Override
     public Startups createStartups(Startups startups) {
-        mailSender.send(emailConstructor.constructNewUserEmail(startups));
+      //  mailSender.send(emailConstructor.constructNewUserEmail(startups));
         return startupsRepository.save(startups);
     }
 
@@ -84,4 +84,6 @@ public class StartupsImplemation implements StartupsInterfaces {
     public List<Startups> getStartupsByName(String name) {
         return startupsRepository.findByNomStartups(name);
     }
+
+
 }

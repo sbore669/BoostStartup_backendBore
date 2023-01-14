@@ -1,10 +1,9 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Repository;
 
-import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Pret;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Investisseur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PretRepository extends JpaRepository<Pret, Long> {
-
+public interface InvestisseurReposotory extends JpaRepository<Investisseur, Long> {
 }

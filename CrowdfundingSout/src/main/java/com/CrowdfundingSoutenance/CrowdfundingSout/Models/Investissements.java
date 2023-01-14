@@ -12,7 +12,7 @@ public class Investissements {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id_invest;
-    private Long montant_invest;
+    private Long montantInvest;
     private Date date_investissement;
 
     @ManyToOne

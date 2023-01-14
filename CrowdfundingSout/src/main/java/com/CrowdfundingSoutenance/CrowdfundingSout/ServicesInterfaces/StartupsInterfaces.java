@@ -13,4 +13,5 @@ public interface StartupsInterfaces {
     Startups getStartupsById(Long id);
     List<Startups> getAllStartups();
     List<Startups> getStartupsByName(String name);
+
 }
