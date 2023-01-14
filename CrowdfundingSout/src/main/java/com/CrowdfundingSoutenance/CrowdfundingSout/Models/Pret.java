@@ -7,10 +7,10 @@ import javax.persistence.*;
 @Entity
 @Data
 public class Pret extends Investissements {
-    private Long idPret;
     private Long Pourcentage;
-    private Long pretminimun;
-    private Long pretmaximun;
+    private Double retourinvestissement;
+
+
 
     @ManyToOne
     @JoinColumn(name = "investisseur_id_users")

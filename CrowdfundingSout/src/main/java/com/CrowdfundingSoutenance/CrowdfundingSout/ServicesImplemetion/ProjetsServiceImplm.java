@@ -39,11 +39,22 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
         if (projets.getPourcentage() >=100){
             throw new IllegalArgumentException("Le pourcentage du prêt saisi doit être compris entre 0 et 100%.");
         }
+        if (projets.getDonationtotalobtenu() == null){
+            projets.setDonationtotalobtenu(0L);
+        }
+        if (projets.getSoldeprojet() == null){
+            projets.setSoldeprojet(0L);
+        }
+        if (projets.getPrettotalobtenu() == null){
+            projets.setPrettotalobtenu(0L);
+        }
+
 
         List<Projets> existingProjects = projetsRepository.findByNomprojets(projets.getNomprojets());
         if (!existingProjects.isEmpty()) {
             throw new IllegalArgumentException("Un projet existe déjà avec ce nom");
         }
+
 
         // Vérifiez les autres champs requis
         return projetsRepository.save(projets);

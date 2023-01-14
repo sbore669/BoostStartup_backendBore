@@ -139,6 +139,7 @@ public class WebSecurityConfig {
             .antMatchers("/api/typeprojets/**").permitAll()
             .antMatchers("/api/methopaie/**").permitAll()
             .antMatchers("/api/realisation/**").permitAll()
+            .antMatchers("/api/pret/**").permitAll()
         .anyRequest().authenticated();
            // .and()
             //.oauth2Login();

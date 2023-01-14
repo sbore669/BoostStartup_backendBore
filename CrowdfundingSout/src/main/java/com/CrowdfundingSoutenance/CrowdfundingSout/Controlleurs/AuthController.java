@@ -283,6 +283,30 @@ public class AuthController {
 
     return ResponseEntity.ok(new MessageResponse("Startup cree avec succès!"));
   }
+  @PutMapping("/Activerstart/{id}")
+  public ResponseEntity<?> ActiveStartups(@PathVariable Long id){
+    Startups startupsActive = startupsRepository.findById(id).orElse(null);
+    if (startupsActive != null){
+      startupsActive.setStatus(Status.VALIDER);
+      startupsInterfaces.updateStartupsById(id, startupsActive);
+      return ResponseEntity.ok(new MessageResponse("Startup activer avec succès!"));
+    }
+    return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Erreur: Startup introuvable!"));
+  }
+  @PutMapping("/rejeterstart/{id}")
+  public ResponseEntity<?> RejeterStartups(@PathVariable Long id){
+    Startups startupsActive = startupsRepository.findById(id).orElse(null);
+    if (startupsActive != null){
+      startupsActive.setStatus(Status.REJETER);
+      startupsInterfaces.updateStartupsById(id, startupsActive);
+      return ResponseEntity.ok(new MessageResponse("Startup rejeter avec succès!"));
+    }
+    return ResponseEntity
+            .badRequest()
+            .body(new MessageResponse("Erreur: Startup introuvable!"));
+  }
 
  @PutMapping("/modifierStart/{id}")
  public ResponseEntity<?> updateStartupsById(
@@ -331,9 +355,6 @@ public class AuthController {
    return ResponseEntity
            .ok(new MessageResponse("Startup modifier avec succès!"));
  }
-
-
- //tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt
 
   @PostMapping("/InscrInvest")//@valid s'assure que les données soit validées
   public ResponseEntity<?> registerInvestisseur(
