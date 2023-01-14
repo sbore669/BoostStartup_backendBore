@@ -1,11 +1,14 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Models;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Pret extends Investissements {
     private Long Pourcentage;
     private Double retourinvestissement;

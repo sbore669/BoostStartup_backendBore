@@ -2,10 +2,13 @@ package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion;
 
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.ProjetsRepository;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.TypeProjetsRepository;
+import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.NotificationServInter;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.ProjetsInterfaces;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,15 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
 
     @Autowired
     private ProjetsRepository projetsRepository;
+
+    @Autowired
+    private TypeProjetsRepository typeProjetsRepository;
+
+
+    @Autowired
+    private NotificationServInter notificationServInter;
+
+
 
 
     @Override
@@ -48,6 +60,9 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
         if (projets.getPrettotalobtenu() == null){
             projets.setPrettotalobtenu(0L);
         }
+        if (projets.getAction_restante() == null){
+            projets.setAction_restante(projets.getNbretotal_action());
+        }
 
 
         List<Projets> existingProjects = projetsRepository.findByNomprojets(projets.getNomprojets());
@@ -55,9 +70,10 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
             throw new IllegalArgumentException("Un projet existe déjà avec ce nom");
         }
 
-
         // Vérifiez les autres champs requis
         return projetsRepository.save(projets);
+
+
     }
 
     @Override

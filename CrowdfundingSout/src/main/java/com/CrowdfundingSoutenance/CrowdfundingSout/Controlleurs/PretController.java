@@ -45,7 +45,7 @@ public class PretController {
         if (projets == null){
             return new ResponseEntity<>("projets introuvable", HttpStatus.NOT_FOUND);
         }
-        if (projets.getPrettotalobtenu() >= projets.getPret_maximun()){
+        if (projets.getPrettotalobtenu() >= projets.getObjectifpret()){
             return new ResponseEntity<>("La Startups a atteint son montant maximun de pret et n'est plus en messure d'accepter de cet pret", HttpStatus.NOT_FOUND);
         }
         if (projets.getPrettotalobtenu() == null){

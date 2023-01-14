@@ -1,13 +1,16 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Models;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Donation extends Investissements{
     private Long donation_minimun;
 

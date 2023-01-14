@@ -3,12 +3,12 @@ package com.CrowdfundingSoutenance.CrowdfundingSout.Controlleurs;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.*;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.ERole;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
-import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.RoleRepository;
-import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository;
-import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.UtilisateursRepository;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.*;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion.StartupsImplemation;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.StartupsInterfaces;
+import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.TypeprojetInterfServ;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.ConfigImages;
+import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.EmailConstructor;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.SaveImage;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.request.LoginRequest;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.request.SignupRequest;
@@ -22,8 +22,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -55,6 +57,9 @@ public class AuthController {
   RoleRepository roleRepository;
 
   @Autowired
+  InvestisseurReposotory investisseurReposotory;
+
+  @Autowired
   StartupsRepository startupsRepository;
 
   @Autowired
@@ -62,6 +67,8 @@ public class AuthController {
 
   @Autowired
   private StartupsInterfaces startupsInterfaces;
+  @Autowired
+  private TypeProjetsRepository typeProjetsRepository;
 
   //encoder du password
   @Autowired
@@ -69,6 +76,13 @@ public class AuthController {
 
   @Autowired
   JwtUtils jwtUtils;
+  @Autowired
+  private TypeprojetInterfServ typeprojetInterfServ;
+
+  @Autowired
+  JavaMailSender mailSender;
+  @Autowired
+  EmailConstructor emailConstructor;
 
   //@Valid assure la validation de l'ensemble de l'objet
  // @PostMapping("/signin")
@@ -146,6 +160,18 @@ public class AuthController {
     List<String> roles = userDetails.getAuthorities().stream()
             .map(item -> item.getAuthority())
             .collect(Collectors.toList());
+
+    try {
+      Startups user=startupsRepository.findByEmail(userDetails.getEmail());
+      if(user.getStatus().equals(Status.ENCOURS)){
+        return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Votre Startups est en attente de Validation"));
+      }
+    }catch (Exception e){
+
+    }
+
 
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
             .body(new JwtResponse(userDetails.getId(),
@@ -288,6 +314,7 @@ public class AuthController {
     Startups startupsActive = startupsRepository.findById(id).orElse(null);
     if (startupsActive != null){
       startupsActive.setStatus(Status.VALIDER);
+   //   mailSender.send(emailConstructor.constructNewUserEmail(startupsActive));
       startupsInterfaces.updateStartupsById(id, startupsActive);
       return ResponseEntity.ok(new MessageResponse("Startup activer avec succès!"));
     }
@@ -356,10 +383,10 @@ public class AuthController {
            .ok(new MessageResponse("Startup modifier avec succès!"));
  }
 
-  @PostMapping("/InscrInvest")//@valid s'assure que les données soit validées
+  @PostMapping("/InscrInvest/{Idtypeprojets}")//@valid s'assure que les données soit validées
   public ResponseEntity<?> registerInvestisseur(
+          @PathVariable Long Idtypeprojets,
           @Valid @RequestParam(value = "file", required = true) MultipartFile file,
-
           @Valid @RequestParam(value = "donneesInvest")String donneesInvest) throws IOException{
 
     String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
@@ -380,7 +407,12 @@ public class AuthController {
               .badRequest()
               .body(new MessageResponse("Erreur: Cet email est déjà utilisé!"));
     }
-
+    Typeprojet typeprojet = typeprojetInterfServ.getTypeprojetsById(Idtypeprojets);
+    if (typeprojet == null) {
+      return new ResponseEntity<>("Type de projet introuvable", HttpStatus.NOT_FOUND);
+    }
+    //  System.err.println(typeprojet.getIdtypeprojets());
+    //investisseur.getTypeprojet().add(typeprojet);
     investisseur.setPassword(encoder.encode(investisseur.getPassword()));
     Set<Role> roles = new HashSet<>();
     Role role = roleRepository.findByName(ERole.ROLE_USER);
@@ -388,8 +420,9 @@ public class AuthController {
     investisseur.setRoles(roles);
     //Enregistrement de l'image dans htdoc
     investisseur.setPhoto(SaveImage.save(file,nomfile));
-    utilisateursRepository.save(investisseur);
 
+    typeprojet.getInvestisseurs().add(investisseurReposotory.save(investisseur));
+    typeProjetsRepository.save(typeprojet);
     return ResponseEntity.ok(new MessageResponse("Compte investisseur creer avec succès!"));
   }
 
