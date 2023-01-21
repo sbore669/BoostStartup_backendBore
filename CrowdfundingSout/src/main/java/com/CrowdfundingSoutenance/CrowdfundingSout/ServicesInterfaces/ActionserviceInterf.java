@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ActionserviceInterf {
 
-    String creeaction(Projets projets, Long nombreaction,Long montantInvest, Investisseur investisseur);
+    String creeaction(Projets projets, Long nombreaction, Investisseur investisseur);
     Action getActionById(Long id);
     List<Action> getAllAction();
 }
