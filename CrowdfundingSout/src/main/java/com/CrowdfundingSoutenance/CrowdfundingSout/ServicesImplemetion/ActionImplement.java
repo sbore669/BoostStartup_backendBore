@@ -19,16 +19,16 @@ public class ActionImplement implements ActionserviceInterf {
     @Autowired
     ActionRepository actionRepository;
     @Override
-    public String creeaction(Projets projets, Long nombreaction,Long montantInvest, Investisseur investisseur) {
+    public String creeaction(Projets projets, Long nombreaction, Investisseur investisseur) {
         if (projets.getNbretotal_action() == 0  && projets.getPrix_action() == 0 ){
             return ("cet projets ne vend pas d'action");
         }
         if (nombreaction > projets.getAction_restante()){
             return "Le nombre d'action saisie est superieur au nombre restant";
         }
-        if (nombreaction * projets.getPrix_action() != montantInvest){
+       /* if (nombreaction * projets.getPrix_action() != montantInvest){
          return "le montant de votre investissemnt ne correspond pas au nombre d'actions multiplié par le prix de l'action";
-        }
+        }*/
         Action action = new Action();
         action.setProjets(projets);
         action.setDate_investissement(new Date());
@@ -44,11 +44,11 @@ public class ActionImplement implements ActionserviceInterf {
 
     @Override
     public Action getActionById(Long id) {
-        return null;
+        return actionRepository.findById(id).orElseThrow(null);
     }
 
     @Override
     public List<Action> getAllAction() {
-        return null;
+        return actionRepository.findAll();
     }
 }

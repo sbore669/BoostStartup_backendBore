@@ -29,8 +29,8 @@ public class ActionControllers {
     @PreAuthorize("hasRole('ROLE_USER')")
     public String creeaction(@PathVariable Long idUsers,
                              @PathVariable Long Idprojet,
-                             @RequestParam Long nombreaction,
-                             @RequestParam Long montantInvest)
+                             @RequestParam Long nombreaction
+                             )
     {
         Investisseur investisseur = investisseurServInter.getInvestisseurById(idUsers);
         if (investisseur == null){
@@ -49,10 +49,10 @@ public class ActionControllers {
 
         projets.setAction_restante(projets.getAction_restante() - nombreaction);
         Action action = new Action();
-        action.setMontantInvest(montantInvest);
+        action.setMontantInvest(nombreaction * projets.getPrix_action());
         action.setAction_restante(projets.getAction_restante());
 
-        actionserviceInterf.creeaction(projets,nombreaction,montantInvest,investisseur);
+        actionserviceInterf.creeaction(projets,nombreaction,investisseur);
         return "Vous avez acquis avec succes " + nombreaction + "action du projets " + projets.getNomprojets() + " avec succes";
     }
 }
