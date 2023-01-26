@@ -1,6 +1,7 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion;
 
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Investisseur;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Typeprojet;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.InvestisseurReposotory;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.InvestisseurServInter;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,7 @@ public class InvestisseurImplement implements InvestisseurServInter {
 
     @Override
     public List<Investisseur> getAllInvestisseur() {
+
         return investisseurReposotory.findAll();
     }
 
@@ -35,4 +37,13 @@ public class InvestisseurImplement implements InvestisseurServInter {
     public Investisseur getInvestisseurById(Long idUsers) {
         return investisseurReposotory.findById(idUsers).orElse(null);
     }
+
+    @Override
+    public List<Investisseur> getInvestisseursByTypeProjet(Typeprojet typeprojet) {
+        return investisseurReposotory.findByTypeprojet(typeprojet);
+    }
+
+
+
+
 }

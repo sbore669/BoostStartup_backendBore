@@ -1,6 +1,7 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Models;
 
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.StatProjets;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -54,6 +55,7 @@ public class Projets {
     @JoinColumn(name = "startup_id")
     private Startups startups;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "type_projet_idtypeprojets")
     private Typeprojet typeprojet;

@@ -38,6 +38,7 @@ public class ActionImplement implements ActionserviceInterf {
         action.setTotal_action(projets.getNbretotal_action());
         action.setInvestisseur(investisseur);
         action.setAction_restante(projets.getAction_restante());
+        investisseur.setTotalInvestissement(investisseur.getTotalInvestissement() + action.getMontantInvest());
         actionRepository.save(action);
         return "Vous avez acquis avec succes " + nombreaction + " action du projets " + projets.getNomprojets() + " avec succes ";
     }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/action")
+@CrossOrigin(origins = {"http://localhost:8100/", "http://localhost:8200/"}, maxAge = 3600,allowCredentials = "true")
 public class ActionControllers {
     @Autowired
     InvestisseurServInter investisseurServInter;
@@ -25,13 +26,14 @@ public class ActionControllers {
     ActionserviceInterf actionserviceInterf;
 
 
-    @PostMapping("/add/{idUsers}/{Idprojet}/")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public String creeaction(@PathVariable Long idUsers,
-                             @PathVariable Long Idprojet,
-                             @RequestParam Long nombreaction
-                             )
+    @PostMapping("/add/{idUsers}/{Idprojet}")
+    //@PreAuthorize("hasRole('ROLE_USER')")
+    public String creeaction(@PathVariable(value = "idUsers") Long idUsers,
+                             @PathVariable(value = "Idprojet") Long Idprojet,
+                             @RequestParam(value = "nbreaction") String nbreaction)
     {
+        Long nombreaction= Long.valueOf(nbreaction);
+
         Investisseur investisseur = investisseurServInter.getInvestisseurById(idUsers);
         if (investisseur == null){
             return "Investisseur introuvable";

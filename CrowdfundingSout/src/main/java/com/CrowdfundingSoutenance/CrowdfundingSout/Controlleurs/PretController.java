@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/pret")
+@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
 public class PretController {
 
     @Autowired

@@ -11,6 +11,6 @@ public interface TypeprojetInterfServ {
     List<Typeprojet> findByNomtype(String nomtype);
     Typeprojet updateById(Long Idtypeprojets, Typeprojet typeprojet);
     void deleteById(Long Idtypeprojets);
-    List<Typeprojet> findAll();
+    List<Typeprojet> getAllTypeprojet();
     Typeprojet getTypeprojetsById(Long Idtypeprojets);
 }

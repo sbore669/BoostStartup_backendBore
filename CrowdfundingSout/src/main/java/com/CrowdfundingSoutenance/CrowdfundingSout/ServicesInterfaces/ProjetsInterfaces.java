@@ -9,6 +9,6 @@ public interface ProjetsInterfaces {
     Projets updateProjet(long idprojets,Projets projets);
     void delete(Long idprojets);
     Projets getProjetById(Long idprojets);
-    List<Projets> findAll();
+    List<Projets> getAllProjet();
     List<Projets> findByNomProjets(String nomProjet, Long id_users);
 }

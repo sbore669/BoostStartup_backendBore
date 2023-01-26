@@ -26,6 +26,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,7 +41,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -265,16 +266,10 @@ public class AuthController {
   //@PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/inscrpStart")//@valid s'assure que les données soit validées
   public ResponseEntity<?> registerStartups(
-          @Valid @RequestParam(value = "file", required = true) MultipartFile file,
+          @Valid @RequestParam(value = "file", required = false) MultipartFile file,
 
           @Valid @RequestParam(value = "donneesstartups")String donneesstartups) throws IOException{
 
-    //chemin de stockage des images
-   // String url = "C:/Users/sbbore/Pictures/springimages";
-
-    //@Valid  @RequestParam(value = "donneesuser") String donneesuser,
-
-    //recupere le nom de l'image
     String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
    // System.out.println(nomfile);
 
@@ -286,10 +281,6 @@ public class AuthController {
     Startups startups = mapper.readValue(donneesstartups, Startups.class);
 
 
-
-    //on recupere le role de l'user dans un tableau ordonné de type string
-   /* Set<String> strRoles = signUpRequest.getRole();
-    Set<Role> roles = new HashSet<>();*/
 
    // startups.setPhoto(nomfile);
     if (startups.getStatus() == null){
@@ -309,7 +300,10 @@ public class AuthController {
 
     return ResponseEntity.ok(new MessageResponse("Startup cree avec succès!"));
   }
+
+
   @PutMapping("/Activerstart/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<?> ActiveStartups(@PathVariable Long id){
     Startups startupsActive = startupsRepository.findById(id).orElse(null);
     if (startupsActive != null){
@@ -322,7 +316,10 @@ public class AuthController {
             .badRequest()
             .body(new MessageResponse("Erreur: Startup introuvable!"));
   }
+
+
   @PutMapping("/rejeterstart/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<?> RejeterStartups(@PathVariable Long id){
     Startups startupsActive = startupsRepository.findById(id).orElse(null);
     if (startupsActive != null){
@@ -411,13 +408,21 @@ public class AuthController {
     if (typeprojet == null) {
       return new ResponseEntity<>("Type de projet introuvable", HttpStatus.NOT_FOUND);
     }
+    /*if (projets.getPrettotalobtenu() == null){
+      projets.setPrettotalobtenu(0L);
+    }*/
     //  System.err.println(typeprojet.getIdtypeprojets());
     //investisseur.getTypeprojet().add(typeprojet);
+    if (investisseur.getTotalInvestissement() == null){
+      investisseur.setTotalInvestissement(0L);
+    }
     investisseur.setPassword(encoder.encode(investisseur.getPassword()));
     Set<Role> roles = new HashSet<>();
     Role role = roleRepository.findByName(ERole.ROLE_USER);
     roles.add(role);
     investisseur.setRoles(roles);
+
+
     //Enregistrement de l'image dans htdoc
     investisseur.setPhoto(SaveImage.save(file,nomfile));
 
