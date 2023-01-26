@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/typeprojets")
+@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
 public class TypeprojetsController {
     @Autowired
     TypeprojetInterfServ typeprojetInterfServ;
@@ -21,9 +22,13 @@ public class TypeprojetsController {
 
         return  typeprojetInterfServ.save(typeprojet);
     }
-    @GetMapping("typeparnom/{nomtype}")
+    @GetMapping("/typeparnom/{nomtype}")
     public List<Typeprojet> findByNomtype(@PathVariable String nomtype){
         return typeprojetInterfServ.findByNomtype(nomtype);
+    }
+    @GetMapping("/afficher")
+    public List<Typeprojet> getAllTypeprojets(){
+        return typeprojetInterfServ.getAllTypeprojet();
     }
     @PutMapping("/modf/{Idtypeprojets}")
     public ResponseEntity<Typeprojet> updateById(@PathVariable Long Idtypeprojets, @RequestBody Typeprojet typeprojet) {

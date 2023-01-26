@@ -41,8 +41,7 @@ public class PretImplement implements PretInterfaceServ {
             pret.setRetourinvestissement(retourInvestissement);
             pret.setInvestisseur(investisseur);
             pret.setMontantInvest(montantInvest);
-
-
+            investisseur.setTotalInvestissement(investisseur.getTotalInvestissement() +montantInvest);
             return pretRepository.save(pret);
         } else {
             throw new IllegalArgumentException("Le montant de l'investissemnet ne respecte pas les limites minimale et maximale du projets");

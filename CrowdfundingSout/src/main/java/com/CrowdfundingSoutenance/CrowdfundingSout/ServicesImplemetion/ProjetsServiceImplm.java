@@ -108,7 +108,7 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
     }
 
     @Override
-    public List<Projets> findAll() {
+    public List<Projets> getAllProjet() {
         return projetsRepository.findAll();
     }
 

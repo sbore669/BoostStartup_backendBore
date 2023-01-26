@@ -28,6 +28,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/projets")
+@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
 public class ProjetControllers {
 
     @Autowired
@@ -138,6 +139,18 @@ public class ProjetControllers {
 
         projetsInterfaces.delete(idprojet);
         return new ResponseEntity<>(new MessageResponse("Projet supprimé avec succès"), HttpStatus.OK);
+    }
+
+    @GetMapping("/afficher")
+    public List<Projets> findAll(){
+        return projetsInterfaces.getAllProjet();
+    }
+
+    //Projets getProjetById(Long idprojets);
+
+    @GetMapping("/aff/{idprojets}")
+    public Projets getProjetsid(@PathVariable Long idprojets){
+       return projetsInterfaces.getProjetById(idprojets);
     }
 
 

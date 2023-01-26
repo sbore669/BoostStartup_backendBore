@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/methopaie/")
+@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
 public class MethodepaieControllers {
 
     @Autowired

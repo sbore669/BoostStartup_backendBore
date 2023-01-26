@@ -46,7 +46,7 @@ public class TypeprojetsImplm implements TypeprojetInterfServ {
     }
 
     @Override
-    public List<Typeprojet> findAll() {
+    public List<Typeprojet> getAllTypeprojet() {
         return typeProjetsRepository.findAll();
     }
 
