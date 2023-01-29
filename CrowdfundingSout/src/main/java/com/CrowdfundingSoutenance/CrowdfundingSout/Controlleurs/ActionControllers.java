@@ -13,6 +13,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/action")
 @CrossOrigin(origins = {"http://localhost:8100/", "http://localhost:8200/"}, maxAge = 3600,allowCredentials = "true")
@@ -57,4 +59,13 @@ public class ActionControllers {
         actionserviceInterf.creeaction(projets,nombreaction,investisseur);
         return "Vous avez acquis avec succes " + nombreaction + "action du projets " + projets.getNomprojets() + " avec succes";
     }
+
+  /*  @GetMapping("/projet/{idProjet}")
+    public ResponseEntity<List<Investisseur>> getInvestisseursByProjet(@PathVariable Long idProjet) {
+        List<Investisseur> investisseurs = actionserviceInterf.getInvestisseursByProjet(idProjet);
+        if (investisseurs.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(investisseurs, HttpStatus.OK);
+    }*/
 }

@@ -1,5 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Notification {
     private String Message;
     private Date datenotif;
 
-
+    @JsonIgnore
     @ManyToMany(mappedBy = "notifications")
     private Set<Investisseur> investisseurs = new HashSet<>();
 }

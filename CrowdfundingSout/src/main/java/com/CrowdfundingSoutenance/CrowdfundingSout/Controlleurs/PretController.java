@@ -59,7 +59,7 @@ public class PretController {
         return new ResponseEntity<>("Votre pret a ete pris en compte avec Succès", HttpStatus.OK);
     }
 
-  /*  @PutMapping("modf/{idPret}")
+    @PutMapping("modf/{idPret}")
     public ResponseEntity<Pret> updatePretById(@PathVariable Long idPret,
                                                @RequestBody Pret pret) {
         Optional<Pret> pret1 = Optional.ofNullable(pretInterfaceServ.getPretById(idPret));
@@ -67,11 +67,11 @@ public class PretController {
             Pret _pret = pret1.get();
 
             _pret.setPourcentage(pret.getPourcentage());
-            return new ResponseEntity<>(pretInterfaceServ.savepret(_pret), HttpStatus.OK);
+            return new ResponseEntity<>(pretInterfaceServ.updatepret(_pret), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    } */
+    }
 
     @DeleteMapping("/{idPret}")
     public void deletePret(@PathVariable Long idPret) {
@@ -83,7 +83,7 @@ public class PretController {
         return pretInterfaceServ.getPretById(idPret);
     }
 
-    @GetMapping("affipret")
+    @GetMapping("aff")
     public List<Pret> getAllPrets() {
         return pretInterfaceServ.getAllPrets();
     }

@@ -11,4 +11,6 @@ public interface ActionserviceInterf {
     String creeaction(Projets projets, Long nombreaction, Investisseur investisseur);
     Action getActionById(Long id);
     List<Action> getAllAction();
+
+   // List<Investisseur> getInvestisseursByProjet(Long idProjet);
 }

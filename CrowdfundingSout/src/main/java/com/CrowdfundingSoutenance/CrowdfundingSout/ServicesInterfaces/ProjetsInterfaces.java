@@ -1,6 +1,7 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces;
 
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
 
 import java.util.List;
 
@@ -11,4 +12,5 @@ public interface ProjetsInterfaces {
     Projets getProjetById(Long idprojets);
     List<Projets> getAllProjet();
     List<Projets> findByNomProjets(String nomProjet, Long id_users);
+    List<Projets> findAllByStartups(Startups startups);
 }
