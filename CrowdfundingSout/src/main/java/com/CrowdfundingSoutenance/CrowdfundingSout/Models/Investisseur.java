@@ -27,6 +27,7 @@ public class Investisseur extends Utilisateurs{
     private Set<Typeprojet> typeprojet = new HashSet<>();
 
 
+
     @ManyToMany
     @JoinTable(name = "investisseur_notification",
             joinColumns = @JoinColumn(name = "investisseur_id"),

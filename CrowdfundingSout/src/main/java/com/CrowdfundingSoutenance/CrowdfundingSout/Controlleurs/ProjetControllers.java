@@ -3,6 +3,8 @@ package com.CrowdfundingSoutenance.CrowdfundingSout.Controlleurs;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.*;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.StatProjets;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.ProjetsRepository;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.TypeProjetsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.NotificationServInter;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.ProjetsInterfaces;
@@ -40,8 +42,13 @@ public class ProjetControllers {
     private TypeprojetInterfServ typeprojetInterfServ;
     @Autowired
     private NotificationServInter notificationServInter;
+    @Autowired
+    private ProjetsRepository projetsRepository;
 
-    //uiiiiiiiiiiiiiiiii
+    @Autowired
+    private StartupsRepository startupsRepository;
+
+    //Controllers post pour ajouter "creer" un projets en fonction d'une startups
     @PostMapping("/add/{id_users}/{Idtypeprojets}")
        @PreAuthorize("hasRole('ROLE_STARTUPS')")
         public ResponseEntity<?> addProjet(
@@ -49,7 +56,10 @@ public class ProjetControllers {
         @PathVariable Long Idtypeprojets,
         @Valid @RequestParam(value = "file", required = true) MultipartFile file,
         @Valid @RequestParam(value = "donneprojet")String donneprojet) throws IOException {
+
+        //on verifier si l'id de startups indiquer existe si oui on enregister dans cas ontraire un message de d'erreur est retourner
     Startups startup = startupsInterfaces.getStartupsById(id_users);
+
     if (startup == null) {
         return new ResponseEntity<>("Entreprise introuvable", HttpStatus.NOT_FOUND);
     }
@@ -153,6 +163,11 @@ public class ProjetControllers {
        return projetsInterfaces.getProjetById(idprojets);
     }
 
+    @GetMapping("/startups/{id_users}")
+    public List<Projets> getProjetsByStartup(@PathVariable Long id_users) {
+        Startups startups = startupsRepository.findById(id_users).orElseThrow(null);
+        return projetsRepository.findByStartups(startups);
+    }
 
 
 

@@ -14,7 +14,7 @@ import java.util.Date;
 public class Investissements {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id_invest;
+    private Long idinvest;
     private Long montantInvest;
     private Date date_investissement;
 

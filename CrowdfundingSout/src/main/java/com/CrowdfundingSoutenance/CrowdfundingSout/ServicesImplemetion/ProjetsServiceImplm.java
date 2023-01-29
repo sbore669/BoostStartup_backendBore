@@ -1,6 +1,7 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion;
 
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.ProjetsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.TypeProjetsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.NotificationServInter;
@@ -99,22 +100,30 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
 
     @Override
     public void delete(Long idprojets) {
-    projetsRepository.deleteById(idprojets);
+
+        projetsRepository.deleteById(idprojets);
     }
 
     @Override
     public Projets getProjetById(Long idprojets) {
+
         return projetsRepository.findById(idprojets).orElse(null);
     }
 
     @Override
     public List<Projets> getAllProjet() {
+
         return projetsRepository.findAll();
     }
 
     @Override
     public List<Projets> findByNomProjets(String NomProjets, Long id_users) {
         return projetsRepository.findByNomprojets(NomProjets);
+    }
+
+    @Override
+    public List<Projets> findAllByStartups(Startups startups) {
+        return projetsRepository.findAllByStartups(startups);
     }
 
 }
