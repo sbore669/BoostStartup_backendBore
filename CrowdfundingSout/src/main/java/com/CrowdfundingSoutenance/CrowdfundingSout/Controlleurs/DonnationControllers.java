@@ -6,6 +6,7 @@ import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.DonationServInter;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.InvestisseurServInter;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.ProjetsInterfaces;
+import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.SuccessMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,7 @@ public class DonnationControllers {
         projets.setDonationtotalobtenu(projets.getDonationtotalobtenu() + montantInvest);
 
         donationServInter.fairedon(projets,montantInvest,investisseur);
-        return new ResponseEntity<>("Votre donnation a ete pris en compte avec Succès", HttpStatus.OK);
+      //  return new ResponseEntity<>("Votre donnation a ete pris en compte avec Succès", HttpStatus.OK);
+        return new ResponseEntity<Object>(new SuccessMessage("Votre donnation a ete pris en compte avec Succès"), HttpStatus.OK);
     }
 }

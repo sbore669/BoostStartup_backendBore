@@ -8,6 +8,7 @@ import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.ProjetsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.InvestisseurServInter;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.PretInterfaceServ;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.ProjetsInterfaces;
+import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.SuccessMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,11 +53,10 @@ public class PretController {
         if (projets.getPrettotalobtenu() == null){
             projets.setPrettotalobtenu(0L);
         }
-
         projets.setPrettotalobtenu(projets.getPrettotalobtenu() + montantInvest);
-
         pretInterfaceServ.faireunpret(projets, montantInvest, investisseur);
-        return new ResponseEntity<>("Votre pret a ete pris en compte avec Succès", HttpStatus.OK);
+       // return new ResponseEntity<>("Votre pret a ete pris en compte avec Succès", HttpStatus.OK);
+        return new ResponseEntity<Object>(new SuccessMessage("Votre pret a ete pris en compte avec Succès"), HttpStatus.OK);
     }
 
     @PutMapping("modf/{idPret}")
