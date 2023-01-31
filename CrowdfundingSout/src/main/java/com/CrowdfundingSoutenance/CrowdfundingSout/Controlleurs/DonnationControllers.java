@@ -1,5 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Controlleurs;
 
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Action;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Donation;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Investisseur;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
@@ -13,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/don")
 @CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
@@ -24,6 +27,7 @@ public class DonnationControllers {
 
     @Autowired
     private ProjetsInterfaces projetsInterfaces;
+
 
     @Autowired
     DonationServInter donationServInter;
@@ -45,5 +49,28 @@ public class DonnationControllers {
         donationServInter.fairedon(projets,montantInvest,investisseur);
       //  return new ResponseEntity<>("Votre donnation a ete pris en compte avec Succès", HttpStatus.OK);
         return new ResponseEntity<Object>(new SuccessMessage("Votre donnation a ete pris en compte avec Succès"), HttpStatus.OK);
+    }
+
+    @GetMapping("/Projets/{Idprojet}")
+    public ResponseEntity<List<Donation>> getInvestisseursByProjets(@PathVariable Long Idprojet){
+        List<Investisseur> investisseurs = donationServInter.getInvestisseursByProjet(Idprojet);
+
+        List<Donation> donations=donationServInter.getInvestissementByProjet(Idprojet);
+        if (investisseurs.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(donations, HttpStatus.OK);
+    }
+
+    @GetMapping("/invest/{IdUser}")
+    public ResponseEntity<List<Donation>> getActionsByInvestisseur(@PathVariable Long IdUser){
+
+        List<Donation> actionList = donationServInter.getDonationByInvestisseur(IdUser);
+
+        //List<Action> actions=actionserviceInterf.getInvestissementByProjet(Idprojet);
+        if (actionList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(actionList, HttpStatus.OK);
     }
 }

@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface InvestisseurReposotory extends JpaRepository<Investisseur, Long> {
     List<Investisseur> findByTypeprojet(Typeprojet typeprojet);
 
+
 }

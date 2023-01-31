@@ -1,5 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces;
 
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Donation;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Investisseur;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Pret;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
@@ -12,5 +13,9 @@ public interface PretInterfaceServ {
     void deletePret(Long id);
     Pret getPretById(Long id);
     List<Pret> getAllPrets();
+    List<Pret> getInvestissementByProjet(Long idProjet);
+
+    List<Pret> getPretByInvestisseur(Long idUser);
+    List<Investisseur> getInvestisseursByProjet(Long idProjet);
 
 }
