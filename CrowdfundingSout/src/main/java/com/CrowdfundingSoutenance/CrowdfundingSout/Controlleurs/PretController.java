@@ -1,5 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Controlleurs;
 
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Action;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Investisseur;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Pret;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
@@ -8,6 +9,7 @@ import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.ProjetsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.InvestisseurServInter;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.PretInterfaceServ;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.ProjetsInterfaces;
+import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.SuccessMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,11 +54,10 @@ public class PretController {
         if (projets.getPrettotalobtenu() == null){
             projets.setPrettotalobtenu(0L);
         }
-
         projets.setPrettotalobtenu(projets.getPrettotalobtenu() + montantInvest);
-
         pretInterfaceServ.faireunpret(projets, montantInvest, investisseur);
-        return new ResponseEntity<>("Votre pret a ete pris en compte avec Succès", HttpStatus.OK);
+       // return new ResponseEntity<>("Votre pret a ete pris en compte avec Succès", HttpStatus.OK);
+        return new ResponseEntity<Object>(new SuccessMessage("Votre pret a ete pris en compte avec Succès"), HttpStatus.OK);
     }
 
     @PutMapping("modf/{idPret}")
@@ -86,5 +87,28 @@ public class PretController {
     @GetMapping("aff")
     public List<Pret> getAllPrets() {
         return pretInterfaceServ.getAllPrets();
+    }
+
+    @GetMapping("/Projets/{Idprojet}")
+    public ResponseEntity<List<Pret>> getInvestisseursByProjets(@PathVariable Long Idprojet){
+        List<Investisseur> investisseurs = pretInterfaceServ.getInvestisseursByProjet(Idprojet);
+
+        List<Pret> pret=pretInterfaceServ.getInvestissementByProjet(Idprojet);
+        if (investisseurs.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(pret, HttpStatus.OK);
+    }
+
+    @GetMapping("/invest/{IdUser}")
+    public ResponseEntity<List<Pret>> getActionsByInvestisseur(@PathVariable Long IdUser){
+
+        List<Pret> pretList = pretInterfaceServ.getPretByInvestisseur(IdUser);
+
+        //List<Action> actions=actionserviceInterf.getInvestissementByProjet(Idprojet);
+        if (pretList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(pretList, HttpStatus.OK);
     }
 }

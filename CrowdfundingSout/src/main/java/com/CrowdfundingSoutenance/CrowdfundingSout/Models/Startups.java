@@ -99,6 +99,4 @@ public class Startups extends Utilisateurs {
         this.pays = pays;
         this.status = status;
     }
-
-
 }
