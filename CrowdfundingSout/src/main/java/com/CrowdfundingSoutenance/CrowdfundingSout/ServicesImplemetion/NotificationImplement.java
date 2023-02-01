@@ -43,4 +43,5 @@ public class NotificationImplement implements NotificationServInter {
     public List<Notification> findAll() {
         return notificationRepository.findAll();
     }
+
 }

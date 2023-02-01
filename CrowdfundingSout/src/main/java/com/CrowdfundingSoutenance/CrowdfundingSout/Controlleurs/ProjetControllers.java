@@ -169,6 +169,17 @@ public class ProjetControllers {
         return projetsRepository.findByStartups(startups);
     }
 
+    @GetMapping("/totalObtenu/{id_users}")
+    public ResponseEntity<Long> getTotalObtenuByStartupId(@PathVariable Long id_users) {
+        Long totalObtenu = projetsInterfaces.getTotalObtenuByStartupId(id_users);
+        return ResponseEntity.ok(totalObtenu);
+    }
+    @GetMapping("/nbProjets/{id_users}")
+    public ResponseEntity<Long> countProjetsByStartupId(@PathVariable Long id_users) {
+        Long nbProjets = projetsInterfaces.countProjetsByStartupId(id_users);
+        return ResponseEntity.ok(nbProjets);
+    }
+
 
 
 }

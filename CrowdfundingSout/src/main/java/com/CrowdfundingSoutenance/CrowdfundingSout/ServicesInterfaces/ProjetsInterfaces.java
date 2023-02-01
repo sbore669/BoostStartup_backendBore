@@ -13,4 +13,6 @@ public interface ProjetsInterfaces {
     List<Projets> getAllProjet();
     List<Projets> findByNomProjets(String nomProjet, Long id_users);
     List<Projets> findAllByStartups(Startups startups);
+    Long getTotalObtenuByStartupId(Long id_users);
+    Long countProjetsByStartupId(Long id_users);
 }

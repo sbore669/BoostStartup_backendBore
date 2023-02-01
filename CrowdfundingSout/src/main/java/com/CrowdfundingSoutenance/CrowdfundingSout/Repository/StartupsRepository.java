@@ -12,4 +12,5 @@ public interface StartupsRepository extends JpaRepository<Startups, Long> {
 
     Startups findByEmail(String email);
 
+
 }

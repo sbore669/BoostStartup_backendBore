@@ -14,4 +14,5 @@ public interface ProjetsRepository extends JpaRepository<Projets, Long> {
     List<Projets> findAllByStartups(Startups startups);
 
     List<Projets> findByStartups(Startups startups);
+
 }

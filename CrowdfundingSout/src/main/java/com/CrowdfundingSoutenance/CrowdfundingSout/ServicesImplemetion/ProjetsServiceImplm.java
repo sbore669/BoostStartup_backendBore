@@ -3,6 +3,7 @@ package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.ProjetsRepository;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.TypeProjetsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.NotificationServInter;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.ProjetsInterfaces;
@@ -26,6 +27,9 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
 
     @Autowired
     private TypeProjetsRepository typeProjetsRepository;
+
+    @Autowired
+    private StartupsRepository startupsRepository;
 
 
     @Autowired
@@ -125,5 +129,19 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
     public List<Projets> findAllByStartups(Startups startups) {
         return projetsRepository.findAllByStartups(startups);
     }
+
+    @Override
+    public Long getTotalObtenuByStartupId(Long id_users) {
+        Startups startups = startupsRepository.findById(id_users).get();
+        List<Projets> projets = projetsRepository.findByStartups(startups);
+        return projets.stream().mapToLong(Projets::getSoldeprojet).sum();
+    }
+
+    public Long countProjetsByStartupId(Long id_users) {
+        Startups startups = startupsRepository.findById(id_users).get();
+        List<Projets> projets = projetsRepository.findByStartups(startups);
+        return (long) projets.size();
+    }
+
 
 }

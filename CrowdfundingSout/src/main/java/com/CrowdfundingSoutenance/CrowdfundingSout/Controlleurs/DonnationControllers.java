@@ -44,7 +44,6 @@ public class DonnationControllers {
         if (projets == null){
             return new ResponseEntity<>("projets introuvable", HttpStatus.NOT_FOUND);
         }
-        projets.setDonationtotalobtenu(projets.getDonationtotalobtenu() + montantInvest);
 
         donationServInter.fairedon(projets,montantInvest,investisseur);
       //  return new ResponseEntity<>("Votre donnation a ete pris en compte avec Succès", HttpStatus.OK);
