@@ -336,7 +336,7 @@ public class AuthController {
  @PutMapping("/modifierStart/{id}")
  public ResponseEntity<?> updateStartupsById(
          @PathVariable Long id,
-         @Valid @RequestParam(value = "file", required = true) MultipartFile file,
+         @Valid @RequestParam(value = "file", required = false) MultipartFile file,
          @Valid @RequestParam(value = "donneesstartups") String donneesstartups) throws IOException {
 
    // récupère la Startup à mettre à jour à partir de la base de données
@@ -363,14 +363,22 @@ public class AuthController {
      // si c'est le cas, ne fait rien
    } else {
      // sinon, définit le statut comme "EN_COURS"
-     startupToUpdate.setStatus(Status.ENCOURS);
+    // startupToUpdate.setStatus(Status.ENCOURS);
    }
+  // Set<Role> roles = new HashSet<>();
+   //Role role = roleRepository.findByName(ERole.ROLE_STARTUPS);
+   //roles.add(role);
+   startupToUpdate.setRoles(startups.getRoles());
    startupToUpdate.setEmail(startupToUpdate.getEmail());
    startupToUpdate.setUsername(startupToUpdate.getUsername());
-   startupToUpdate.setPassword(encoder.encode(startups.getPassword()));
+   if(startupToUpdate.getPassword()!=null){
+     startupToUpdate.setPassword(encoder.encode(startupToUpdate.getPassword()));
+
+   }
    startupToUpdate.setAdresse(startupToUpdate.getAdresse());
    startupToUpdate.setNomcomplet(startupToUpdate.getNomcomplet());
    startupToUpdate.setPhoto(SaveImage.save(file,nomfile));
+
 
    // enregistre la Startup dans la base de données
    startupsInterfaces.updateStartupsById(id, startupToUpdate);

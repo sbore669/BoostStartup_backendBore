@@ -1,5 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Repository;
 
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Utilisateurs;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,6 +12,8 @@ public interface StartupsRepository extends JpaRepository<Startups, Long> {
     List<Startups> findByNomStartups(String name);
 
     Startups findByEmail(String email);
+
+    List<Startups> findByStatus(Status status);
 
 
 }

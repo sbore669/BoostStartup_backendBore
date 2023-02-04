@@ -1,15 +1,21 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion;
 
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.StartupsInterfaces;
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.Autres.EmailConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class StartupsImplemation implements StartupsInterfaces {
@@ -30,11 +36,11 @@ public class StartupsImplemation implements StartupsInterfaces {
         return startupsRepository.save(startups);
     }
 
-    @Override
+  /*@Override
     public String updateStartupsById(Long id, Startups startup) {
-        Startups existingStartup = startupsRepository.findById(id).orElse(null);
-        if (existingStartup != null) {
-            // update the fields of the existing startup with the new values
+    Startups existingStartup = startupsRepository.findById(id).orElse(null);
+    if (existingStartup != null) {
+       // update the fields of the existing startup with the new values
             existingStartup.setNomStartups(startup.getNomStartups());
             existingStartup.setContact(startup.getContact());
             existingStartup.setEmailStartups(startup.getEmailStartups());
@@ -53,7 +59,7 @@ public class StartupsImplemation implements StartupsInterfaces {
             //update the related Utilisateurs entity
             existingStartup.setUsername(startup.getUsername());
             existingStartup.setEmail(startup.getEmail());
-            existingStartup.setPassword(startup.getPassword());
+           // existingStartup.setPassword(startup.getPassword());
             existingStartup.setNomcomplet(startup.getNomcomplet());
             existingStartup.setPhoto(startup.getPhoto());
             existingStartup.setAdresse(startup.getAdresse());
@@ -62,6 +68,29 @@ public class StartupsImplemation implements StartupsInterfaces {
         } else {
             return "echec lors de la modification";
         }
+    }*/
+  @Override
+  public String updateStartupsById(Long id, Startups startup) {
+      Startups existingStartup = startupsRepository.findById(id).orElse(null);
+      if (existingStartup != null) {
+          BeanUtils.copyProperties(startup, existingStartup, getNullPropertyNames(startup));
+          startupsRepository.save(existingStartup);
+          return "startup modifiée avec succès";
+      } else {
+          return "échec lors de la modification";
+      }
+  }
+    private static String[] getNullPropertyNames(Object source) {
+        final BeanWrapper src = new BeanWrapperImpl(source);
+        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
+
+        Set<String> emptyNames = new HashSet<>();
+        for (java.beans.PropertyDescriptor pd : pds) {
+            Object srcValue = src.getPropertyValue(pd.getName());
+            if (srcValue == null) emptyNames.add(pd.getName());
+        }
+        String[] result = new String[emptyNames.size()];
+        return emptyNames.toArray(result);
     }
 
 
@@ -83,6 +112,11 @@ public class StartupsImplemation implements StartupsInterfaces {
     @Override
     public List<Startups> getStartupsByName(String name) {
         return startupsRepository.findByNomStartups(name);
+    }
+
+    @Override
+    public List<Startups> findByStatus(Status status) {
+        return startupsRepository.findByStatus(status);
     }
 
 

@@ -1,5 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces;
 
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
 
 
@@ -13,5 +14,6 @@ public interface StartupsInterfaces {
     Startups getStartupsById(Long id);
     List<Startups> getAllStartups();
     List<Startups> getStartupsByName(String name);
+    List<Startups> findByStatus(Status status);
 
 }

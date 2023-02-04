@@ -43,9 +43,14 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
         if (projets.getNomprojets() == null || projets.getNomprojets().isEmpty()) {
             throw new IllegalArgumentException("Le nom du projet est requis");
         }
-
         if (projets.getBudgetPrevisonnel() <= 0) {
             throw new IllegalArgumentException("Le budget prévisionnel doit être supérieur à 0 ou le pourcentage du pret superieur a 100%");
+        }
+        if (projets.getObjectifpret()<= projets.getPret_maximun()){
+            throw new IllegalArgumentException("Le pret maximun ne peut etre superieur a l'objectif du pret");
+        }
+        if (projets.getObjectifpret()<0){
+            throw new IllegalArgumentException("La valeur de l'objectif du pret ne peut etre inferieur a 0");
         }
         if (projets.getPret_minimun() >= projets.getPret_maximun()) {
             throw new IllegalArgumentException("La valeur minimale du prêt est supérieure à la valeur maximale du prêt." + "Veuillez saisir des valeurs correctes.");
@@ -69,16 +74,12 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
             projets.setAction_restante(projets.getNbretotal_action());
         }
 
-
         List<Projets> existingProjects = projetsRepository.findByNomprojets(projets.getNomprojets());
         if (!existingProjects.isEmpty()) {
             throw new IllegalArgumentException("Un projet existe déjà avec ce nom");
         }
-
         // Vérifiez les autres champs requis
         return projetsRepository.save(projets);
-
-
     }
 
     @Override
