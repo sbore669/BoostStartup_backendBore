@@ -10,8 +10,7 @@ import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.Notificati
 import com.CrowdfundingSoutenance.CrowdfundingSout.payload.response.MessageResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -41,6 +40,7 @@ public class NotificationImplement implements NotificationServInter {
 
     @Override
     public List<Notification> findAll() {
+
         return notificationRepository.findAll();
     }
 

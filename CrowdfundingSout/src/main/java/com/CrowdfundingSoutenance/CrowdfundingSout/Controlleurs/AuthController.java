@@ -183,6 +183,7 @@ public class AuthController {
                     userDetails.getPhoto(),
                     userDetails.getNomcomplet(),
                     roles));
+
   }
 
 

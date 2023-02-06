@@ -104,7 +104,8 @@ public class ProjetControllers {
     projet.setImage(SaveImage.save(file, nomfile));
     projet.setDateLancement(new Date());
 
-    notificationServInter.generateNotificationByType(projetsInterfaces.addProjet(projet),typeprojet);
+    //notificationServInter.generateNotificationByType(projetsInterfaces.addProjet(projet),typeprojet);
+        notificationServInter.generateNotificationByType(projetsInterfaces.addProjet(projet),typeprojet);
     return new ResponseEntity<>(new MessageResponse("Projet créé avec succès"), HttpStatus.CREATED);
 
 }

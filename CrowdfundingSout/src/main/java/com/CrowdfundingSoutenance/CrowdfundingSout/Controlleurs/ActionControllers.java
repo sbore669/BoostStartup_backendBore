@@ -51,14 +51,21 @@ public class ActionControllers {
             return new ResponseEntity<>("Le nombre d'action saisie est superieur au nombre disponible",HttpStatus.BAD_REQUEST);
         }
 
-        projets.setAction_restante(projets.getAction_restante() - nombreaction);
+
+
+        //projets.setAction_restante(projets.getAction_restante() - nombreaction);
+
         Action action = new Action();
         action.setMontantInvest(nombreaction * projets.getPrix_action());
+
         action.setAction_restante(projets.getAction_restante());
 
+
         actionserviceInterf.creeaction(projets,nombreaction,investisseur);
-      //  return new ResponseEntity<Object>( "Vous avez acquis avec succes " + nombreaction + "action du projets " + projets.getNomprojets() + " avec succes", HttpStatus.OK);
+        //  return new ResponseEntity<Object>( "Vous avez acquis avec succes " + nombreaction + "action du projets " + projets.getNomprojets() + " avec succes", HttpStatus.OK);
         return new ResponseEntity<Object>(new SuccessMessage("Vous avez acquis avec succès " + nombreaction + " action(s) du projet " + projets.getNomprojets() + " avec succès"), HttpStatus.OK);
+
+
     }
 
     @GetMapping("/Projets/{Idprojet}")
