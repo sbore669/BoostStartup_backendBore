@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/invest")
-@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:8100/", "http://localhost:4200/"}, maxAge = 3600,allowCredentials = "true")
 public class InvestisseursControllers {
 
     @Autowired
@@ -50,6 +50,11 @@ public class InvestisseursControllers {
             return new ResponseEntity<>("Investisseur introuvable", HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(investisseur, HttpStatus.OK);
+    }
+    @GetMapping("/totaux")
+    public ResponseEntity<Long> getTotalInvestisseurs(){
+        Long totalInvest = investisseurServInter.investisseurTotal();
+        return ResponseEntity.ok(totalInvest);
     }
 
 }

@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/don")
-@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:8100/", "http://localhost:4200/"}, maxAge = 3600,allowCredentials = "true")
 public class DonnationControllers {
 
 
@@ -47,7 +47,7 @@ public class DonnationControllers {
 
         donationServInter.fairedon(projets,montantInvest,investisseur);
       //  return new ResponseEntity<>("Votre donnation a ete pris en compte avec Succès", HttpStatus.OK);
-        return new ResponseEntity<Object>(new SuccessMessage("Votre donnation a ete pris en compte avec Succès"), HttpStatus.OK);
+        return new ResponseEntity<Object>(new SuccessMessage("Votre donnation de " + montantInvest + " au projet " + projets.getNomprojets() + " ete pris en compte avec Succès"), HttpStatus.OK);
     }
 
     @GetMapping("/Projets/{Idprojet}")

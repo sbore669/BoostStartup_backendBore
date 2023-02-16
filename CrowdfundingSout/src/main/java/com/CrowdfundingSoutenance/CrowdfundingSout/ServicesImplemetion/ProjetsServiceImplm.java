@@ -1,7 +1,9 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion;
 
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Investissements;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.InvestissemntReposotory;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.ProjetsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.TypeProjetsRepository;
@@ -34,6 +36,10 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
 
     @Autowired
     private NotificationServInter notificationServInter;
+    @Autowired
+    private InvestissemntReposotory investissemntReposotory;
+
+
 
 
 
@@ -137,10 +143,63 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
         List<Projets> projets = projetsRepository.findByStartups(startups);
         return projets.stream().mapToLong(Projets::getSoldeprojet).sum();
     }
+    @Override
+    public Long getTotalDonationByStartupId(Long id_users) {
+        Startups startups = startupsRepository.findById(id_users).get();
+        List<Projets> projets = projetsRepository.findByStartups(startups);
+        return projets.stream().mapToLong(Projets::getDonationtotalobtenu).sum();
+    }
+
+    @Override
+    public Long getTotalPretByStartupId(Long id_users) {
+        Startups startups = startupsRepository.findById(id_users).get();
+        List<Projets> projets = projetsRepository.findByStartups(startups);
+        return projets.stream().mapToLong(Projets::getPrettotalobtenu).sum();
+    }
 
     public Long countProjetsByStartupId(Long id_users) {
         Startups startups = startupsRepository.findById(id_users).get();
         List<Projets> projets = projetsRepository.findByStartups(startups);
+        return (long) projets.size();
+    }
+    //Calculer le total obtenus reçus
+   @Override
+   public Long getTotalObtenuForAllStartups() {
+       List<Investissements> investissements = investissemntReposotory.findAll();
+       Long total = 0L;
+       for (Investissements investissements1 : investissements) {
+           System.out.println(total);
+           total += investissements1.getMontantInvest();
+       }
+       return total;
+   }
+
+
+   //Calculer le total des donnation obtenu sur la plateforme
+   @Override
+   public Long getTotalDonationForAllStartups() {
+       List<Startups> startups = startupsRepository.findAll();
+       Long totaldon = 0L;
+       for (Startups startup : startups) {
+           totaldon += getTotalDonationByStartupId(startup.getId());
+       }
+       return totaldon;
+   }
+
+   //Calculer le total des pret sur l'ensemble des projets
+   @Override
+   public Long getTotalPretForAllStartups() {
+       List<Startups> startups = startupsRepository.findAll();
+       Long totalpret = 0L;
+       for (Startups startup : startups) {
+           totalpret += getTotalPretByStartupId(startup.getId());
+       }
+       return totalpret;
+   }
+
+    @Override
+    public Long countAllProjets() {
+        List<Projets> projets = projetsRepository.findAll();
         return (long) projets.size();
     }
 

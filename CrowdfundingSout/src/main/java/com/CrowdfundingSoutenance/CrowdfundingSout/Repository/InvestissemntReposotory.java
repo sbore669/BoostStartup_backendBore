@@ -11,4 +11,5 @@ public interface InvestissemntReposotory extends JpaRepository<Investissements, 
 
     List<Investissements> findAllByProjets(Projets projets);
 
+
 }

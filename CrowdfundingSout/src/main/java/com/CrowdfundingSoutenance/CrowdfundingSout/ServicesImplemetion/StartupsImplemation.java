@@ -1,6 +1,7 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion;
 
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.StartupsInterfaces;
@@ -107,6 +108,13 @@ public class StartupsImplemation implements StartupsInterfaces {
     @Override
     public List<Startups> getAllStartups() {
         return (List<Startups>) startupsRepository.findAll();
+    }
+
+
+    @Override
+    public Long getTotalStartup() {
+        List<Startups> startups = startupsRepository.findAll();
+        return (long) startups.size();
     }
 
     @Override

@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("api/pret")
-@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:8100/", "http://localhost:4200/"}, maxAge = 3600,allowCredentials = "true")
 public class PretController {
 
     @Autowired
@@ -57,7 +57,7 @@ public class PretController {
         projets.setPrettotalobtenu(projets.getPrettotalobtenu() + montantInvest);
         pretInterfaceServ.faireunpret(projets, montantInvest, investisseur);
        // return new ResponseEntity<>("Votre pret a ete pris en compte avec Succès", HttpStatus.OK);
-        return new ResponseEntity<Object>(new SuccessMessage("Votre pret a ete pris en compte avec Succès"), HttpStatus.OK);
+        return new ResponseEntity<Object>(new SuccessMessage("Votre pret de " + montantInvest + " au projets " + projets.getNomprojets() +" ete pris en compte avec Succès"  ), HttpStatus.OK);
     }
 
     @PutMapping("modf/{idPret}")
