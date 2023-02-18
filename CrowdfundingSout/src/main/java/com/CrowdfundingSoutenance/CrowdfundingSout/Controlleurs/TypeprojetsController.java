@@ -1,21 +1,25 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.Controlleurs;
 
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Typeprojet;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.TypeProjetsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.TypeprojetInterfServ;
-import com.CrowdfundingSoutenance.CrowdfundingSout.payload.response.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/typeprojets")
-@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:8100/", "http://localhost:4200/"}, maxAge = 3600,allowCredentials = "true")
 public class TypeprojetsController {
     @Autowired
     TypeprojetInterfServ typeprojetInterfServ;
+
+    @Autowired
+    TypeProjetsRepository typeProjetsRepository;
 
     @PostMapping("/add")
     public ResponseEntity<?> save(@RequestBody Typeprojet typeprojet){
@@ -25,6 +29,11 @@ public class TypeprojetsController {
     @GetMapping("/typeparnom/{nomtype}")
     public List<Typeprojet> findByNomtype(@PathVariable String nomtype){
         return typeprojetInterfServ.findByNomtype(nomtype);
+    }
+
+    @GetMapping("/typeparid/{typeprojet}")
+    public Optional<Typeprojet> findById(@PathVariable Typeprojet typeprojet){
+        return typeProjetsRepository.findById(typeprojet.getIdtypeprojets());
     }
     @GetMapping("/afficher")
     public List<Typeprojet> getAllTypeprojets(){

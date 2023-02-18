@@ -14,5 +14,11 @@ public interface ProjetsInterfaces {
     List<Projets> findByNomProjets(String nomProjet, Long id_users);
     List<Projets> findAllByStartups(Startups startups);
     Long getTotalObtenuByStartupId(Long id_users);
+    Long getTotalDonationByStartupId(Long id_users);
+    Long getTotalPretByStartupId(Long id_users);
     Long countProjetsByStartupId(Long id_users);
+    Long getTotalObtenuForAllStartups();
+    Long getTotalDonationForAllStartups();
+    Long getTotalPretForAllStartups();
+    Long countAllProjets();
 }

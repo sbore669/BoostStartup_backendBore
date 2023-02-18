@@ -13,6 +13,7 @@ public interface StartupsInterfaces {
     void deleteStartups(Long id);
     Startups getStartupsById(Long id);
     List<Startups> getAllStartups();
+    Long getTotalStartup();
     List<Startups> getStartupsByName(String name);
     List<Startups> findByStatus(Status status);
 

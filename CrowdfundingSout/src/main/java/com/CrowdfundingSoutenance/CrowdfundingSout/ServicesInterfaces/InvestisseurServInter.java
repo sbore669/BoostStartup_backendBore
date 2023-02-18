@@ -12,4 +12,5 @@ public interface InvestisseurServInter {
     Investisseur getInvestisseurById(Long idUsers);
 
     List<Investisseur> getInvestisseursByTypeProjet(Typeprojet typeprojet);
+    Long investisseurTotal();
 }

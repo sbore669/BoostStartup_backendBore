@@ -3,6 +3,7 @@ package com.CrowdfundingSoutenance.CrowdfundingSout.Controlleurs;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.*;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.StatProjets;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
+import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.InvestissemntReposotory;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.ProjetsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.StartupsRepository;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Repository.TypeProjetsRepository;
@@ -30,7 +31,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/projets")
-@CrossOrigin(origins = "http://localhost:8100/", maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:8100/", "http://localhost:4200/"}, maxAge = 3600,allowCredentials = "true")
 public class ProjetControllers {
 
     @Autowired
@@ -44,6 +45,9 @@ public class ProjetControllers {
     private NotificationServInter notificationServInter;
     @Autowired
     private ProjetsRepository projetsRepository;
+
+    @Autowired
+    private InvestissemntReposotory investissemntReposotory;
 
     @Autowired
     private StartupsRepository startupsRepository;
@@ -170,16 +174,62 @@ public class ProjetControllers {
         return projetsRepository.findByStartups(startups);
     }
 
+    //Obtenir le total Collecter par sur l'ensemble des projets'
     @GetMapping("/totalObtenu/{id_users}")
     public ResponseEntity<Long> getTotalObtenuByStartupId(@PathVariable Long id_users) {
         Long totalObtenu = projetsInterfaces.getTotalObtenuByStartupId(id_users);
         return ResponseEntity.ok(totalObtenu);
     }
+    //Obtenir le nombre total de projets
     @GetMapping("/nbProjets/{id_users}")
     public ResponseEntity<Long> countProjetsByStartupId(@PathVariable Long id_users) {
         Long nbProjets = projetsInterfaces.countProjetsByStartupId(id_users);
         return ResponseEntity.ok(nbProjets);
     }
+    //Obtenir le nombre total de pret obtenu
+    @GetMapping("/totalpret/{id_users}")
+    public ResponseEntity<Long> getTotalPretByStartupId(@PathVariable Long id_users){
+        Long totalpret = projetsInterfaces.getTotalPretByStartupId(id_users);
+        return ResponseEntity.ok(totalpret);
+    }
+
+    //Obtenir le nombre total de donation obtenu
+    @GetMapping("/totaldonation/{id_users}")
+    public ResponseEntity<Long> getTotalDonationByStartupId(@PathVariable Long id_users){
+        Long totaldonation = projetsInterfaces.getTotalDonationByStartupId(id_users);
+        return ResponseEntity.ok(totaldonation);
+    }
+
+    /*@GetMapping("/totalObtenu/{id_users}")
+    public ResponseEntity<Long> getTotalObtenuByStartupId(@PathVariable Long id_users) {
+        Long totalObtenu = projetsInterfaces.getTotalObtenuByStartupId(id_users);
+        return ResponseEntity.ok(totalObtenu);
+    }*/
+    //Recuperrer le total Obtenu sur L'ensemble des projets
+    @GetMapping("/totaux")
+    public ResponseEntity<Long> getTotalObtenuForAllStartups(){
+        Long total = projetsInterfaces.getTotalObtenuForAllStartups();
+        return ResponseEntity.ok(total);
+    }
+
+    //Recupperer le total des donation obtenu
+    @GetMapping("/totauxdon")
+    public ResponseEntity<Long> getTotalDonationForAllStartups(){
+        Long total = projetsInterfaces.getTotalDonationForAllStartups();
+        return ResponseEntity.ok(total);
+    }
+
+    @GetMapping("/totauxpret")
+    public ResponseEntity<Long> getTotalPretForAllStartups(){
+        Long total = projetsInterfaces.getTotalPretForAllStartups();
+        return ResponseEntity.ok(total);
+    }
+    @GetMapping("/nbretotalprojet")
+    public ResponseEntity<Long> countAllProjets(){
+        Long totalprojet = projetsInterfaces.countAllProjets();
+        return ResponseEntity.ok(totalprojet);
+    }
+
 
 
 
