@@ -32,6 +32,7 @@ public class Projets {
     private Long pourcentage;
     private Long pret_minimun;
     private Long pret_maximun;
+    private Long actiontotalVendu;
     private Long prettotalobtenu;
     private Long donationtotalobtenu;
     private Long minimun_donation;
@@ -40,7 +41,7 @@ public class Projets {
     @PrePersist
     @PreUpdate
     public void updateSoldeProjet(){
-        this.soldeprojet = this.prettotalobtenu + this.donationtotalobtenu;
+        this.soldeprojet = this.prettotalobtenu + this.donationtotalobtenu + this.actiontotalVendu;
     }
   /*  @PrePersist
     @PreUpdate

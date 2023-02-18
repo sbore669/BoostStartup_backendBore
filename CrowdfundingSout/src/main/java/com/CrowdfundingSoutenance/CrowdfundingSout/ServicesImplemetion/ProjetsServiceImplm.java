@@ -64,6 +64,9 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
         if (projets.getMinimun_donation()<= 0){
             throw new IllegalArgumentException("Le minimun de donation doit être superieur a 0");
         }
+        if (projets.getPourcentage() < 0){
+            throw new IllegalArgumentException("Le pourcentage du prêt saisi ne peut etre negatif.");
+        }
         if (projets.getPourcentage() >=100){
             throw new IllegalArgumentException("Le pourcentage du prêt saisi doit être compris entre 0 et 100%.");
         }
@@ -75,6 +78,9 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
         }
         if (projets.getPrettotalobtenu() == null){
             projets.setPrettotalobtenu(0L);
+        }
+        if (projets.getActiontotalVendu() == null){
+            projets.setActiontotalVendu(0L);
         }
         if (projets.getAction_restante() == null){
             projets.setAction_restante(projets.getNbretotal_action());

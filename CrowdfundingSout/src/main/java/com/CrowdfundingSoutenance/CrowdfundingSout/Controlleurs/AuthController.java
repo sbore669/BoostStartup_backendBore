@@ -310,7 +310,7 @@ public class AuthController {
     Startups startupsActive = startupsRepository.findById(id).orElse(null);
     if (startupsActive != null){
       startupsActive.setStatus(Status.VALIDER);
-   //   mailSender.send(emailConstructor.constructNewUserEmail(startupsActive));
+      mailSender.send(emailConstructor.constructValidationStartups(startupsActive));
       startupsInterfaces.updateStartupsById(id, startupsActive);
       return ResponseEntity.ok(new MessageResponse("Startup activer avec succès!"));
     }
