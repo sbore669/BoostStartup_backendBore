@@ -173,6 +173,16 @@ public class AuthController {
 
     }
 
+    try {
+      Startups user=startupsRepository.findByEmail(userDetails.getEmail());
+      if(user.getStatus().equals(Status.REJETER)){
+        return ResponseEntity
+                .badRequest()
+                .body(new MessageResponse("Votre Startups a été rejeter"));
+      }
+    }catch (Exception e){
+
+    }
 
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
             .body(new JwtResponse
@@ -183,13 +193,7 @@ public class AuthController {
                     userDetails.getPhoto(),
                     userDetails.getNomcomplet(),
                     roles));
-
   }
-
-
-
-
-
 
 
   //@PreAuthorize("hasRole('ADMIN')")
@@ -283,7 +287,6 @@ public class AuthController {
     Startups startups = mapper.readValue(donneesstartups, Startups.class);
 
 
-
    // startups.setPhoto(nomfile);
     if (startups.getStatus() == null){
       startups.setStatus(Status.ENCOURS);
@@ -301,8 +304,8 @@ public class AuthController {
     startupsInterfaces.createStartups(startups);
 
     return ResponseEntity.ok(new MessageResponse("Startup cree avec succès!"));
-  }
 
+  }
 
   @PutMapping("/Activerstart/{id}")
   @PreAuthorize("hasRole('ADMIN')")
@@ -318,7 +321,6 @@ public class AuthController {
             .badRequest()
             .body(new MessageResponse("Erreur: Startup introuvable!"));
   }
-
 
   @PutMapping("/rejeterstart/{id}")
   @PreAuthorize("hasRole('ADMIN')")
@@ -347,25 +349,15 @@ public class AuthController {
              .badRequest()
              .body(new MessageResponse("Erreur: Startup introuvable!"));
    }
-   // récupère le nom de l'image
-   String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
-   System.out.println(nomfile);
 
+   // récupère le nom de l'image
 
    // conversion du string reçu en classe Startups
    ObjectMapper mapper = new ObjectMapper();
    Startups startupToUpdate = mapper.readValue(donneesstartups, Startups.class);
 
-   // si le status n'est pas défini, il est défini comme "EN_COURS"
-   if (startupToUpdate.getStatus() == null) {
-     startupToUpdate.setStatus(Status.ENCOURS);
-   } else if (Arrays.asList(Status.values()).contains(startupToUpdate.getStatus())) {
-     // vérifie que le statut est un des valeurs possibles
-     // si c'est le cas, ne fait rien
-   } else {
-     // sinon, définit le statut comme "EN_COURS"
-    // startupToUpdate.setStatus(Status.ENCOURS);
-   }
+
+
   // Set<Role> roles = new HashSet<>();
    //Role role = roleRepository.findByName(ERole.ROLE_STARTUPS);
    //roles.add(role);
@@ -378,7 +370,13 @@ public class AuthController {
    }
    startupToUpdate.setAdresse(startupToUpdate.getAdresse());
    startupToUpdate.setNomcomplet(startupToUpdate.getNomcomplet());
-   startupToUpdate.setPhoto(SaveImage.save(file,nomfile));
+
+   if (file != null) {
+     //  String url = "C:/Users/sbbore/Pictures/springimages";
+     String nomfile = StringUtils.cleanPath(file.getOriginalFilename());
+     //  ConfigImages.saveimg(url, nomfile, file);
+     startupToUpdate.setPhoto(SaveImage.save(file,nomfile));
+   }
 
 
    // enregistre la Startup dans la base de données

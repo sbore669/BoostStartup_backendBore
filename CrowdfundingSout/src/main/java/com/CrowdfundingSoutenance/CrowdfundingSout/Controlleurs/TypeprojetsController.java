@@ -30,7 +30,6 @@ public class TypeprojetsController {
     public List<Typeprojet> findByNomtype(@PathVariable String nomtype){
         return typeprojetInterfServ.findByNomtype(nomtype);
     }
-
     @GetMapping("/typeparid/{typeprojet}")
     public Optional<Typeprojet> findById(@PathVariable Typeprojet typeprojet){
         return typeProjetsRepository.findById(typeprojet.getIdtypeprojets());

@@ -36,6 +36,7 @@ public class DonationServImplement implements DonationServInter {
         donation.setDonation_minimun(projets.getMinimun_donation());
         donation.setInvestisseur(investisseur);
         projets.setDonationtotalobtenu(projets.getDonationtotalobtenu() + montantInvest);
+        investisseur.setTotalInvestissement(investisseur.getTotalInvestissement() + donation.getMontantInvest());
         return donationRepository.save(donation);
     }
 

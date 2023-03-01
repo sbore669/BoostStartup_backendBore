@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/action")
-@CrossOrigin(origins = {"http://localhost:8100/", "http://localhost:8200/"}, maxAge = 3600,allowCredentials = "true")
+@CrossOrigin(origins = {"http://localhost:8100/", "http://localhost:4200/"}, maxAge = 3600,allowCredentials = "true")
 public class ActionControllers {
     @Autowired
     InvestisseurServInter investisseurServInter;

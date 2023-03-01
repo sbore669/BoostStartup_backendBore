@@ -163,6 +163,11 @@ public class ProjetControllers {
 
     //Projets getProjetById(Long idprojets);
 
+    @GetMapping("/affValider")
+    public List<Projets> getAllByStatus(){
+        return projetsInterfaces.getAllByStatus();
+    }
+
     @GetMapping("/aff/{idprojets}")
     public Projets getProjetsid(@PathVariable Long idprojets){
        return projetsInterfaces.getProjetById(idprojets);

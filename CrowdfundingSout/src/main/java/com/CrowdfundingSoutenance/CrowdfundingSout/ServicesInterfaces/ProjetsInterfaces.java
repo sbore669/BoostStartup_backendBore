@@ -11,6 +11,7 @@ public interface ProjetsInterfaces {
     void delete(Long idprojets);
     Projets getProjetById(Long idprojets);
     List<Projets> getAllProjet();
+    List<Projets> getAllByStatus();
     List<Projets> findByNomProjets(String nomProjet, Long id_users);
     List<Projets> findAllByStartups(Startups startups);
     Long getTotalObtenuByStartupId(Long id_users);
