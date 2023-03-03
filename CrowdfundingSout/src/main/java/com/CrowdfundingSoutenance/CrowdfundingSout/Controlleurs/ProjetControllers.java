@@ -163,6 +163,11 @@ public class ProjetControllers {
 
     //Projets getProjetById(Long idprojets);
 
+    @GetMapping("/affValider")
+    public List<Projets> getAllByStatus(){
+        return projetsInterfaces.getAllByStatus();
+    }
+
     @GetMapping("/aff/{idprojets}")
     public Projets getProjetsid(@PathVariable Long idprojets){
        return projetsInterfaces.getProjetById(idprojets);
@@ -191,6 +196,11 @@ public class ProjetControllers {
     public ResponseEntity<Long> getTotalPretByStartupId(@PathVariable Long id_users){
         Long totalpret = projetsInterfaces.getTotalPretByStartupId(id_users);
         return ResponseEntity.ok(totalpret);
+    }
+    @GetMapping("/totalaction/{id_users}")
+    public ResponseEntity<Long> geTotalActionByStartupId(@PathVariable Long id_users){
+        Long totalaction = projetsInterfaces.geTotalActionByStartupId(id_users);
+        return ResponseEntity.ok(totalaction);
     }
 
     //Obtenir le nombre total de donation obtenu

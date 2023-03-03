@@ -1,5 +1,6 @@
 package com.CrowdfundingSoutenance.CrowdfundingSout.ServicesImplemetion;
 
+import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Enum.Status;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Investissements;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Projets;
 import com.CrowdfundingSoutenance.CrowdfundingSout.Models.Startups;
@@ -12,10 +13,10 @@ import com.CrowdfundingSoutenance.CrowdfundingSout.ServicesInterfaces.ProjetsInt
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -134,6 +135,16 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
     }
 
     @Override
+    public List<Projets> getAllByStatus() {
+       List<Startups> startups = startupsRepository.findByStatus(Status.VALIDER);
+        List<Projets> projets = new ArrayList<>();
+        for (Startups startup : startups) {
+            projets.addAll(projetsRepository.findAllByStartups(startup));
+        }
+        return projets;
+    }
+
+    @Override
     public List<Projets> findByNomProjets(String NomProjets, Long id_users) {
         return projetsRepository.findByNomprojets(NomProjets);
     }
@@ -163,6 +174,13 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
         return projets.stream().mapToLong(Projets::getPrettotalobtenu).sum();
     }
 
+    @Override
+    public Long geTotalActionByStartupId(Long id_users) {
+        Startups startups = startupsRepository.findById(id_users).get();
+        List<Projets> projets = projetsRepository.findByStartups(startups);
+        return projets.stream().mapToLong(Projets::getActiontotalVendu).sum();
+    }
+
     public Long countProjetsByStartupId(Long id_users) {
         Startups startups = startupsRepository.findById(id_users).get();
         List<Projets> projets = projetsRepository.findByStartups(startups);
@@ -174,7 +192,7 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
        List<Investissements> investissements = investissemntReposotory.findAll();
        Long total = 0L;
        for (Investissements investissements1 : investissements) {
-           System.out.println(total);
+           //System.out.println(total);
            total += investissements1.getMontantInvest();
        }
        return total;

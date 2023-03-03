@@ -39,13 +39,11 @@ public class StartupControllers {
         return new ResponseEntity<>(startups,HttpStatus.OK);
     }
 
-
-
     @GetMapping("/affall")
     public List<Startups> getAllStartups() {
         return startupsInterfaces.getAllStartups();
     }
-  /*  @GetMapping("/totauxdon")
+    /*  @GetMapping("/totauxdon")
     public ResponseEntity<Long> getTotalSonationForAllStartups(){
         Long total = projetsInterfaces.getTotalObtenuForAllStartups();
         return ResponseEntity.ok(total);
