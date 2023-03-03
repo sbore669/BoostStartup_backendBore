@@ -197,6 +197,11 @@ public class ProjetControllers {
         Long totalpret = projetsInterfaces.getTotalPretByStartupId(id_users);
         return ResponseEntity.ok(totalpret);
     }
+    @GetMapping("/totalaction/{id_users}")
+    public ResponseEntity<Long> geTotalActionByStartupId(@PathVariable Long id_users){
+        Long totalaction = projetsInterfaces.geTotalActionByStartupId(id_users);
+        return ResponseEntity.ok(totalaction);
+    }
 
     //Obtenir le nombre total de donation obtenu
     @GetMapping("/totaldonation/{id_users}")

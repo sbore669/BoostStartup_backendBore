@@ -174,6 +174,13 @@ public class ProjetsServiceImplm implements ProjetsInterfaces {
         return projets.stream().mapToLong(Projets::getPrettotalobtenu).sum();
     }
 
+    @Override
+    public Long geTotalActionByStartupId(Long id_users) {
+        Startups startups = startupsRepository.findById(id_users).get();
+        List<Projets> projets = projetsRepository.findByStartups(startups);
+        return projets.stream().mapToLong(Projets::getActiontotalVendu).sum();
+    }
+
     public Long countProjetsByStartupId(Long id_users) {
         Startups startups = startupsRepository.findById(id_users).get();
         List<Projets> projets = projetsRepository.findByStartups(startups);

@@ -17,6 +17,7 @@ public interface ProjetsInterfaces {
     Long getTotalObtenuByStartupId(Long id_users);
     Long getTotalDonationByStartupId(Long id_users);
     Long getTotalPretByStartupId(Long id_users);
+    Long geTotalActionByStartupId(Long id_users);
     Long countProjetsByStartupId(Long id_users);
     Long getTotalObtenuForAllStartups();
     Long getTotalDonationForAllStartups();
