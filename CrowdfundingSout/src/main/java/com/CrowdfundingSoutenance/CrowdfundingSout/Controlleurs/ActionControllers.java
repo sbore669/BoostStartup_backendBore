@@ -50,6 +50,9 @@ public class ActionControllers {
         if (nombreaction > projets.getAction_restante()){
             return new ResponseEntity<>("Le nombre d'action saisie est superieur au nombre disponible",HttpStatus.BAD_REQUEST);
         }
+        if (nombreaction <= 0){
+            return new ResponseEntity<>("Le nombre d'action saisie est inferieur a zero",HttpStatus.BAD_REQUEST);
+        }
 
         //projets.setAction_restante(projets.getAction_restante() - nombreaction);
 

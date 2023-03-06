@@ -29,6 +29,7 @@ public class DonationServImplement implements DonationServInter {
         if(montantInvest <= projets.getMinimun_donation()){
             throw new IllegalArgumentException("Desoler le montant minimun de donation accepter pour cet projet est de " +projets.getMinimun_donation());
         }
+
         Donation donation = new Donation();
         donation.setProjets(projets);
         donation.setDate_investissement(new Date());

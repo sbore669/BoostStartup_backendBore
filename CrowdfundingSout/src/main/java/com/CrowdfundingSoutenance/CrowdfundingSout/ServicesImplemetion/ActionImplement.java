@@ -36,6 +36,7 @@ public class ActionImplement implements ActionserviceInterf {
         if (nombreaction > projets.getAction_restante()){
             return new ResponseEntity<>("Le nombre d'action saisie est supérieur au nombre restant", HttpStatus.BAD_REQUEST);
         }
+
         projets.setAction_restante(projets.getAction_restante() - nombreaction);
 
         Action action = new Action();
