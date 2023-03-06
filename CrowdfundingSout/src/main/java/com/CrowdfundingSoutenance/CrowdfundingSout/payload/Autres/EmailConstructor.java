@@ -32,7 +32,7 @@ public class EmailConstructor {
 				MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
 				email.setPriority(1);
 				email.setTo(utilisateurs.getEmail());
-				email.setSubject("Bienvenu sur crowdfunding");
+				email.setSubject("Bienvenu sur Boost Startups");
 				email.setText(text, true);
 				email.setFrom(new InternetAddress(env.getProperty("support.email")));
 			}
@@ -49,7 +49,7 @@ public class EmailConstructor {
 				MimeMessageHelper email = new MimeMessageHelper(mimeMessage);
 				email.setPriority(1);
 				email.setTo(utilisateurs.getEmail());
-				email.setSubject("Bienvenu sur MaliStartups-Invest");
+				email.setSubject("Bienvenu sur Boost Startups");
 				email.setText(text, true);
 				email.setFrom(new InternetAddress(env.getProperty("support.email")));
 			}
